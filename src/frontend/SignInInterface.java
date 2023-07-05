@@ -1,73 +1,59 @@
 package frontend;
 
-import backend.User;
-import backend.UserInformation;
 import database.BusinessTableManager;
 import database.UserTableManager;
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class SignInInterface extends Application {
+public class SignInInterface extends Interface {
 
     private TextField emailTextField = new TextField();
     private PasswordField passwordField = new PasswordField();
-    private Stage primaryStage;
-
 
     @Override
     public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        GridPane gridPane = new GridPane();
-        gridPane.setPadding(new Insets(20));
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
+        setPrimaryStage(primaryStage);
+        setGridPane();
 
         Label emailLabel = new Label("Email:");
-
         Label passwordLabel = new Label("Password:");
+        Button loginButton = createButton("Login", e -> login());
+        Button backButton = createButton("Back", e -> goBack());
 
-        gridPane.add(emailLabel, 0, 0);
-        gridPane.add(emailTextField, 1, 0);
-        gridPane.add(passwordLabel, 0, 1);
-        gridPane.add(passwordField, 1, 1);
+        addToGridPane(emailLabel, 0, 0);
+        addToGridPane(passwordLabel, 0, 1);
+        addToGridPane(emailTextField, 1, 0);
+        addToGridPane(passwordField, 1, 1);
+        addToGridPane(backButton, 0, 2);
+        addToGridPane(loginButton, 1, 2);
 
-        Button loginButton = new Button("Login");
-        loginButton.setOnAction(e -> login());
+        showCurrentInterface("Login");
+    }
 
-        gridPane.add(loginButton, 0, 2, 2, 1);
-
-        Scene scene = new Scene(gridPane, 300, 150);
-        primaryStage.setTitle("Login");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    private void clearPersonalFields() {
+        emailTextField.clear();
+        passwordField.clear();
     }
 
     private void login() {
         String email = emailTextField.getText();
         String password = passwordField.getText();
 
-        if (new UserTableManager().checkUser(email, password)) {
-            UserDashboard userDashboard = new UserDashboard(email);
-            userDashboard.start(primaryStage);
+        UserTableManager userTableManager = new UserTableManager();
+        //TODO qui c'è codice che può essere messo tutto insieme, sistemare i table managers
+        BusinessTableManager businessTableManager = new BusinessTableManager();
+        if (userTableManager.checkUser(email, password)) {
+            clearPersonalFields();
+            UserDashboard userDashboard = new UserDashboard(userTableManager.getAccountId(email));
+            showNextInterface(userDashboard);
         }
-        else if (new BusinessTableManager().checkBusiness(email, password)) {
-            BusinessDashboard businessDashboard = new BusinessDashboard(email);
-            businessDashboard.start(primaryStage);
+        else if (businessTableManager.checkBusiness(email, password)) {
+            clearPersonalFields();
+            BusinessDashboard businessDashboard = new BusinessDashboard(businessTableManager.getAccountId(email));
+            showNextInterface(businessDashboard);
         }
         else {
             showAlert("Invalid credentials", "Incorrect username or password. ");
         }
-    }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

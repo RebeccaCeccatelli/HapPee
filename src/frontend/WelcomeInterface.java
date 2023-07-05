@@ -1,49 +1,40 @@
 package frontend;
 
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
+import database.BusinessDetailsTableManager;
+import database.BusinessTableManager;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class WelcomeInterface extends Application {
-    private Stage primaryStage;
+import java.sql.Time;
+
+public class WelcomeInterface extends Interface {
 
     @Override
     public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-
-        VBox welcomeInterface = new VBox(10);
-        welcomeInterface.setPadding(new Insets(20));
+        setPrimaryStage(primaryStage);
+        setGridPane();
 
         Text text = new Text("Welcome to HapPee! Do you already have a HapPee Account?");
-        Button signUpButton = new Button("No: Let's sign up!");
-        Button signInButton = new Button("Yes: Sign in.");
+        Button signUpButton = createButton("No: Let's sign up!",e -> showSignUpWindow());
+        Button signInButton = createButton("Yes: Sign in. ", e -> showSignInWindow());
 
-        signUpButton.setOnAction(e -> showSignUpWindow());
-        signInButton.setOnAction(e -> showSignInWindow());
+        addToGridPane(text, 0, 0);
+        addToGridPane(signUpButton, 0, 1);
+        addToGridPane(signInButton, 0, 2);
 
-        welcomeInterface.getChildren().addAll(text, signUpButton, signInButton);
-
-        Scene scene = new Scene(welcomeInterface, 300, 200);
-        primaryStage.setTitle("Welcome Interface");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        showCurrentInterface("Welcome Interface");
     }
 
     private void showSignUpWindow() {
-        ClientTypeInterface signUpInterface = new ClientTypeInterface();
-        signUpInterface.start(primaryStage);
+        ClientTypeInterface clientTypeInterface = new ClientTypeInterface();
+        showNextInterface(clientTypeInterface);
     }
 
     private void showSignInWindow() {
         SignInInterface signInInterface = new SignInInterface();
-        signInInterface.start(primaryStage);
+        showNextInterface(signInInterface);
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    public static void main(String[] args) {launch(args);}
 }

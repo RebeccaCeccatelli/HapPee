@@ -8,7 +8,7 @@ public class UserTableManager extends TableManager {
         return "User";
     }
 
-    public boolean insert(Object... params) {
+    public boolean addNewRow(Object... params) {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sqlCommand = "INSERT INTO \"User\" (name, surname, email, password) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sqlCommand);
@@ -20,7 +20,7 @@ public class UserTableManager extends TableManager {
 
             statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error during Insert operation in User table: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
         return true;
@@ -38,16 +38,12 @@ public class UserTableManager extends TableManager {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    result = true; // Trovato corrispondenza
+                    result = true;
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return result;
     }
-
-
-
 }

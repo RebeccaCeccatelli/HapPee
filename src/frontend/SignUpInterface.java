@@ -1,72 +1,47 @@
 package frontend;
 
-import javafx.application.Application;
-import javafx.geometry.Insets;
+import database.TableManager;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
-import javafx.stage.Stage;
 
-public abstract class SignUpInterface extends Application {
+public abstract class SignUpInterface extends Interface {
     protected TextField nameField;
     protected TextField emailField;
     protected PasswordField passwordField;
     protected PasswordField confirmPasswordField;
-    GridPane gridPane = new GridPane();
 
-    @Override
-    public void start(Stage primaryStage) {
-        setGridPane();
-        setCommonLabels();
-        setSpecificLabels();
+    protected void register() {
+        TableManager tableManager = getTableManager();
+        String name = nameField.getText();
+        String email = emailField.getText();
+        String password = passwordField.getText();
+        String confirmPassword = confirmPasswordField.getText();
 
+        if (tableManager.emailAlreadyExists(email)) {
+            showAlert("Email already exists", "Please enter a new email");
+            emailField.clear();
+        }
+
+        if (!password.equals(confirmPassword)) {
+            showAlert("Passwords do not match", "Please re-enter the password");
+            passwordField.clear();
+            confirmPasswordField.clear();
+        } else {
+            if (tableManager.addNewRow(name, getSpecificField(), email, password)){
+                optional(tableManager, email);
+                showConfirmationDialog("Registration Completed", "Registration successfully completed!");
+                Dashboard dashboard = getDashboard(tableManager.getAccountId(email));
+                showNextInterface(dashboard);
+            }
+        }
     }
 
-    protected abstract void setSpecificLabels();
+    protected abstract TableManager getTableManager();
 
-    private void setCommonLabels() {
-        Label nameLabel = new Label("Name:");
-        nameField = new TextField();
+    //FIXME this method probably to be changed
+    protected void optional(TableManager tableManager, String email){}
 
-        Label emailLabel = new Label("Email:");
-        emailField = new TextField();
+    protected abstract Object getSpecificField();
 
-        Label passwordLabel = new Label("Password:");
-        passwordField = new PasswordField();
-
-        Label confirmPasswordLabel = new Label("Confirm Password:");
-        confirmPasswordField = new PasswordField();
-    }
-
-    protected abstract void register();
-    //TODO
-
-    private void setGridPane() {
-        gridPane.setPadding(new Insets(20));
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
-    }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    private void showConfirmationDialog() {
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("Registration Completed");
-        dialog.setHeaderText(null);
-        dialog.setContentText("Registration successfully completed!");
-
-        ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().add(okButton);
-
-        dialog.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-
-        dialog.showAndWait();
-    }
+    protected abstract Dashboard getDashboard(int id);
 
 }

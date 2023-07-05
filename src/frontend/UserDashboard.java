@@ -1,19 +1,17 @@
 package frontend;
 
 import backend.User;
-import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class UserDashboard extends Application {
+public class UserDashboard extends Dashboard {
     private User user;
 
-    public UserDashboard(String email) {
-        this.user = new User(email);
+    public UserDashboard(int id) {
+        this.user = new User(id);
     }
 
     @Override
     public void start(Stage primaryStage) {
         System.out.println("Utente loggato come User");
-
     }
 }

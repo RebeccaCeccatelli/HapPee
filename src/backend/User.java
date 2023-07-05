@@ -1,17 +1,14 @@
 package backend;
 
-public class User {
-    private UserInformation userInformation;
+import database.TableManager;
+import database.UserTableManager;
+
+public class User  extends Account{
     private Position position;
     private Subscription subscription;
 
-    public User(String email) {
-        userInformation = new UserInformation(email);
-
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
+    public User(int id) {
+        information = new UserInformation(id);
     }
 
     public void setSubscription(String type) {
@@ -22,4 +19,5 @@ public class User {
             subscription = new StandardSubscription();
         }
     }
+
 }

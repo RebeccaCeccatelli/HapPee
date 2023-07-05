@@ -7,34 +7,11 @@ public abstract class TableManager {
     protected static final String DB_USER = "postgres";
     protected static final String DB_PASSWORD = "Pianoforte2000!";
 
-    public abstract boolean insert(Object... params);
+    public abstract String getClientType ();
 
-    public String getFromDatabase(String email, String column) {
-        String desiredField = null;
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sql = "SELECT " + column + " FROM \""+ getClientType() +"\" WHERE email = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+    public abstract boolean addNewRow(Object... params);
 
-            statement.setString(1, email);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                desiredField = resultSet.getString(column);
-            }
-
-            resultSet.close();
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return desiredField;
-    }
-
-    public abstract String getClientType();
-
-    public boolean emailAlreadyExists(String email) {
+    public boolean emailAlreadyExists (String email){
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sqlCommand = "SELECT COUNT(*) FROM public.\"User\" WHERE email = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sqlCommand)) {
@@ -49,9 +26,118 @@ public abstract class TableManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return false;
     }
 
+    public int getAccountId(String email) {
+        int id = 0;
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            String sql = "SELECT id FROM \"" + getClientType() + "\" WHERE email = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, email);
 
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                id = resultSet.getInt("id");
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    public int getIntFromDB(int id, String column){
+        int desiredField = -1;
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            String sql = "SELECT " + column + " FROM \"" + getClientType() + "\" WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                desiredField = resultSet.getInt(column);
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return desiredField;
+    }
+
+    public float getFLoatFromDB(int id, String column) {
+        float desiredField = 0;
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            String sql = "SELECT " + column + " FROM \"" + getClientType() + "\" WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                desiredField = resultSet.getFloat(column);
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return desiredField;
+    }
+
+    public Time getTimeFromDB(int id, String column) {
+        Time desiredField = null;
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            String sql = "SELECT " + column + " FROM \"" + getClientType() + "\" WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                desiredField = resultSet.getTime(column);
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return desiredField;
+    }
+
+    public String getStringFromDB(int id, String column){
+        String desiredField = null;
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            String sql = "SELECT " + column + " FROM \"" + getClientType() + "\" WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                desiredField = resultSet.getString(column);
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return desiredField;
+    }
+
+    public boolean update(int id, String column, Object value) {
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            String sqlCommand = "UPDATE \"" + getClientType() + "\" SET " + column + " = ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sqlCommand);
+
+            statement.setObject(1, value);
+            statement.setInt(2, id);
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

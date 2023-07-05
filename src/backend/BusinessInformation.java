@@ -5,9 +5,9 @@ import database.BusinessTableManager;
 public class BusinessInformation extends AccountInformation{
     private Address address;
 
-    public BusinessInformation(String email) {
-        super(email, new BusinessTableManager());
-        this.address = new BusinessTableManager().getAddressFromDatabase(email);
+    public BusinessInformation(int businessId) {
+        super(businessId, new BusinessTableManager());
+        this.address = new BusinessTableManager().getAddressFromDatabase(businessId);
     }
 
 }

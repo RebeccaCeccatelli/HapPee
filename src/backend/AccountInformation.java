@@ -3,26 +3,44 @@ package backend;
 import database.TableManager;
 
 public class AccountInformation {
+    protected int id;
     protected String name;
     protected String email;
     protected String password;
+    private TableManager tableManager;
 
-    public AccountInformation(String email, TableManager tableManager) {
-        this.name = tableManager.getFromDatabase(email, "name");
-        this.email = email;
-        this.password = tableManager.getFromDatabase(email, "password");
+    public AccountInformation(int id, TableManager tableManager) {
+        this.tableManager = tableManager;
+        this.id = id;
+        this.name = tableManager.getStringFromDB(id, "name");
+        this.email = tableManager.getStringFromDB(id, "name");
+        this.password = tableManager.getStringFromDB(id, "password");
+    }
+    public void saveName(String newName) {
+        setName(newName);
+        tableManager.update(id, "name", newName);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    private void setEmail(String newEmail) {
+        this.email = newEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void saveEmail(String newEmail) {
+        setEmail(newEmail);
+        tableManager.update(id, "email", newEmail);
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    private void setPassword(String newPassword) {
+        this.password = newPassword;
+    }
+
+    public void savePassword(String newPassword) {
+        setPassword(newPassword);
+        tableManager.update(id, "password", newPassword);
+    }
+
+    private void setName(String newName) {
+        this.name = newName;
     }
 
     public String getName() {
@@ -35,5 +53,9 @@ public class AccountInformation {
 
     public String getPassword() {
         return password;
+    }
+
+    public int getId() {
+        return this.id;
     }
 }
