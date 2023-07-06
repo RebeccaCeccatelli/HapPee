@@ -13,7 +13,8 @@ public class BusinessAccountDetailsDashboard extends AccountDetailsDashboard {
     }
 
     private void saveAddress() {
-            //TODO
+            ModifyBusinessAddressDashboard modifyBusinessAddressDashboard = new ModifyBusinessAddressDashboard(account);
+            showNextInterface(modifyBusinessAddressDashboard);
     }
 
     @Override

@@ -6,35 +6,20 @@ import backend.Address;
 public class BusinessTableManager extends TableManager {
 
     public boolean addNewRow(Object... params) {
+        AddressTableManager addressTableManager = new AddressTableManager();
+        addressTableManager.addNewRow(params[1]);
+        int addressId = addressTableManager.getAddressId();
+
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            connection.setAutoCommit(false);
+            String sqlCommand = "INSERT INTO \"Business\" (name, address_id, email, password) VALUES (?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(sqlCommand);
 
-            String addressSql = "INSERT INTO \"Address\"  (street, civic_number, postcode, city, country) " +
-                    "VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement addressStatement = connection.prepareStatement(addressSql, PreparedStatement.RETURN_GENERATED_KEYS);
-            Address address = (Address) params[1];
-            addressStatement.setString(1, address.street());
-            addressStatement.setString(2, address.civicNumber());
-            addressStatement.setString(3, address.postCode());
-            addressStatement.setString(4, address.city());
-            addressStatement.setString(5, address.country());
-            addressStatement.executeUpdate();
+            statement.setString(1, (String) params[0]);
+            statement.setInt(2, addressId);
+            statement.setString(3, (String) params[2]);
+            statement.setString(4, (String) params[3]);
 
-            ResultSet generatedKeys = addressStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                int addressId = generatedKeys.getInt(1);
-
-                String businessSql = "INSERT INTO \"Business\"  (name, address_id, email, password) " +
-                        "VALUES (?, ?, ?, ?)";
-                PreparedStatement businessStatement = connection.prepareStatement(businessSql);
-                businessStatement.setString(1, (String) params[0]);
-                businessStatement.setInt(2, addressId);
-                businessStatement.setString(3, (String) params[2]);
-                businessStatement.setString(4, (String) params[3]);
-                businessStatement.executeUpdate();
-            }
-
-            connection.commit();
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

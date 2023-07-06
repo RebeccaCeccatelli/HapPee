@@ -31,7 +31,7 @@ public class Business extends Account {
     }
 
     public void saveSpecificField(Object... params) {
-        //TODO
+        information.saveSpecificField(params);
     }
 
     public float getAverageRating() {
