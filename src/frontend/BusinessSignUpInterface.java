@@ -75,8 +75,8 @@ public class BusinessSignUpInterface extends SignUpInterface {
     }
 
     protected void optional(TableManager tableManager, String email){
-        int id = tableManager.getAccountId(email);
-        new BusinessDetailsTableManager().addNewRow("business_id", id);
+        int businessId = tableManager.getAccountId(email);
+        new BusinessDetailsTableManager().addNewRow("business_id", businessId);
     }
 
     protected Dashboard getDashboard(int id) {

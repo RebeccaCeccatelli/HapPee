@@ -10,4 +10,12 @@ public class BusinessInformation extends AccountInformation{
         this.address = new BusinessTableManager().getAddressFromDatabase(businessId);
     }
 
+    public void saveSpecificField(Object... params) {
+
+    }
+
+    public Object getSpecificField() {
+        return address;
+    }
+
 }

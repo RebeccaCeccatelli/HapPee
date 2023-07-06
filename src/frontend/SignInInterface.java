@@ -42,12 +42,12 @@ public class SignInInterface extends Interface {
         UserTableManager userTableManager = new UserTableManager();
         //TODO qui c'è codice che può essere messo tutto insieme, sistemare i table managers
         BusinessTableManager businessTableManager = new BusinessTableManager();
-        if (userTableManager.checkUser(email, password)) {
+        if (userTableManager.checkUserExistence(email, password)) {
             clearPersonalFields();
             UserDashboard userDashboard = new UserDashboard(userTableManager.getAccountId(email));
             showNextInterface(userDashboard);
         }
-        else if (businessTableManager.checkBusiness(email, password)) {
+        else if (businessTableManager.checkBusinessExistence(email, password)) {
             clearPersonalFields();
             BusinessDashboard businessDashboard = new BusinessDashboard(businessTableManager.getAccountId(email));
             showNextInterface(businessDashboard);

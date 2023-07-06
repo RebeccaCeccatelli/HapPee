@@ -1,16 +1,37 @@
 package backend;
 
-import java.util.ArrayList;
+import database.ReviewTableManager;
+
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Review {
+    private int userId;
+    private int businessId;
     private String text;
-    private ArrayList<Photo> photos;
     private float rating;
+    private Date date;
+    private Time time;
 
-    public Review(String text, ArrayList<Photo> photos, float rating){
+    public Review(int userId, int businessId, String text, float rating){
+        this.userId = userId;
+        this.businessId = businessId;
         this.text = text;
-        this.photos = photos;
         this.rating = rating;
+        this.date = Date.valueOf(LocalDate.now());
+        this.time = Time.valueOf(LocalTime.now());
+    }
+
+    public Review(int userId, int businessId, String text, float rating, Date date, Time time) {
+        this(userId, businessId, text, rating);
+        this.date = date;
+        this.time = time;
+    }
+
+    public void save() {
+        new ReviewTableManager().addNewRow(userId, businessId, text, rating, date, time);
     }
 
     public void modifyReviewText(String newText) {
@@ -22,6 +43,30 @@ public class Review {
         System.out.println(text);
         System.out.println(rating);
         //TODO add show photos
+    }
+
+    public int getBusinessId() {
+        return businessId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getDate() {
+        return date.toString();
+    }
+
+    public String getTime() {
+        return time.toString();
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public float getRating() {
+        return rating;
     }
 
 }

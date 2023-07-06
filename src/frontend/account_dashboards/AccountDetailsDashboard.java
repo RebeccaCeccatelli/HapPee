@@ -7,7 +7,7 @@ import javafx.scene.control.TextInputDialog;
 
 import java.util.Optional;
 
-public abstract class ModifyAccountDetailsDashboard extends Interface {
+public abstract class AccountDetailsDashboard extends Interface {
     protected Account account;
 
     protected void saveName() {
@@ -18,11 +18,11 @@ public abstract class ModifyAccountDetailsDashboard extends Interface {
         String currentName = account.getName();
         dialog.setContentText("Current Name: " + currentName);
 
+        dialog.getDialogPane().setGraphic(null);
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(newName -> {
             account.saveName(newName);
             showConfirmationDialog("Save new name", "New name successfully saved!");
-            showCurrentInterface("Modify Account Details");
         });
     }
 
@@ -34,11 +34,11 @@ public abstract class ModifyAccountDetailsDashboard extends Interface {
         String currentEmail = account.getEmail();
         dialog.setContentText("Current Email: " + currentEmail);
 
+        dialog.getDialogPane().setGraphic(null);
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(newEmail -> {
             account.saveEmail(newEmail);
             showConfirmationDialog("Save new email", "New email successfully saved!");
-            showCurrentInterface("Modify Account Details");
         });
     }
 
@@ -48,6 +48,7 @@ public abstract class ModifyAccountDetailsDashboard extends Interface {
         oldPasswordDialog.setHeaderText("Enter your old password:");
         oldPasswordDialog.setContentText("Old password:");
 
+        oldPasswordDialog.getDialogPane().setGraphic(null);
         Optional<String> oldPasswordResult = oldPasswordDialog.showAndWait();
         oldPasswordResult.ifPresent(oldPassword -> {
             if (verifyOldPassword(oldPassword)) {
@@ -62,11 +63,11 @@ public abstract class ModifyAccountDetailsDashboard extends Interface {
                     newPasswordDialog.getDialogPane().lookupButton(ButtonType.OK).setDisable(newValue.equals(currentPassword));
                 });
 
+                newPasswordDialog.getDialogPane().setGraphic(null);
                 Optional<String> newPasswordResult = newPasswordDialog.showAndWait();
                 newPasswordResult.ifPresent(newPassword -> {
                     account.savePassword(newPassword);
                     showConfirmationDialog("Save new password", "New password successfully saved!");
-                    showCurrentInterface("Modify Account Details");
                 });
             } else {
                 showAlert("Incorrect password", "The old password you entered is not correct. Try again.");

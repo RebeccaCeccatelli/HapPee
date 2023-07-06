@@ -42,7 +42,7 @@ public class BusinessTableManager extends TableManager {
         return true;
     }
 
-    public boolean checkBusiness(String email, String password) {
+    public boolean checkBusinessExistence(String email, String password) {
         boolean result = false;
         String query = "SELECT * FROM \"Business\" WHERE email = ? AND password = ?";
 
@@ -62,6 +62,26 @@ public class BusinessTableManager extends TableManager {
         }
 
         return result;
+    }
+
+    public int checkBusinessName(String name) {
+        int id = -1;
+        String query = "SELECT * FROM \"Business\" WHERE name = ?";
+
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, name);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    id = resultSet.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
     }
 
     public Address getAddressFromDatabase(int businessId) {
@@ -113,7 +133,7 @@ public class BusinessTableManager extends TableManager {
         return address;
     }
 
-    public String getClientType() {
+    public String getTableName() {
         return "Business";
     }
 }

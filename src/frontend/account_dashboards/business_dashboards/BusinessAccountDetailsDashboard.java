@@ -1,19 +1,19 @@
 package frontend.account_dashboards.business_dashboards;
 
 import backend.Business;
-import frontend.account_dashboards.ModifyAccountDetailsDashboard;
+import frontend.account_dashboards.AccountDetailsDashboard;
 import javafx.stage.Stage;
 
 import javafx.scene.control.*;
 
-public class BusinessAccountDetailsDashboard extends ModifyAccountDetailsDashboard {
+public class BusinessAccountDetailsDashboard extends AccountDetailsDashboard {
 
     public BusinessAccountDetailsDashboard(Business business) {
         this.account = business;
     }
 
     private void saveAddress() {
-
+            //TODO
     }
 
     @Override

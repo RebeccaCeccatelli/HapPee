@@ -4,7 +4,7 @@ import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class ClientTypeInterface extends Interface {
+public class AccountTypeInterface extends Interface {
 
     @Override
     public void start(Stage primaryStage) {

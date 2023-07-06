@@ -1,12 +1,8 @@
 package frontend;
 
-import database.BusinessDetailsTableManager;
-import database.BusinessTableManager;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-
-import java.sql.Time;
 
 public class WelcomeInterface extends Interface {
 
@@ -27,7 +23,7 @@ public class WelcomeInterface extends Interface {
     }
 
     private void showSignUpWindow() {
-        ClientTypeInterface clientTypeInterface = new ClientTypeInterface();
+        AccountTypeInterface clientTypeInterface = new AccountTypeInterface();
         showNextInterface(clientTypeInterface);
     }
 

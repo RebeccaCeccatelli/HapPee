@@ -15,7 +15,13 @@ public abstract class Interface extends Application {
     protected Stage primaryStage;
     protected Scene currentScene;
     protected Scene previousScene;
+    protected String previousSceneTitle;
     protected GridPane gridPane = new GridPane();
+
+
+    protected void setPreviousSceneTitle(String title) {
+        this.previousSceneTitle = title;
+    }
 
     @Override
     public abstract void start(Stage primaryStage);
@@ -29,6 +35,7 @@ public abstract class Interface extends Application {
     }
 
     protected void goBack() {
+        primaryStage.setTitle(previousSceneTitle);
         primaryStage.setScene(previousScene);
     }
 
@@ -67,6 +74,7 @@ public abstract class Interface extends Application {
 
     protected void showNextInterface(Interface nextInterface) {
         nextInterface.setPreviousScene(currentScene);
+        nextInterface.setPreviousSceneTitle(primaryStage.getTitle());
         nextInterface.start(primaryStage);
     }
 

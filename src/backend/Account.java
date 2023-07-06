@@ -1,7 +1,10 @@
 package backend;
 
+import java.util.ArrayList;
+
 public abstract class Account {
     protected AccountInformation information;
+    protected ArrayList<Review> reviews;
 
     public int getId() {
         return information.getId();
@@ -29,6 +32,14 @@ public abstract class Account {
 
     public void savePassword(String newPassword) {
         information.savePassword(newPassword);
+    }
+
+    public abstract void saveSpecificField(Object... params);
+
+    public abstract Object getSpecificField();
+
+    public ArrayList<Review> getReviews() {
+        return reviews;
     }
 }
 

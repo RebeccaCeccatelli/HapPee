@@ -1,16 +1,19 @@
 package database;
 
-
 import java.sql.*;
 
-public class BusinessDetailsTableManager extends TableManager{
+public class UserPaymentDetailsTableManager extends TableManager {
+    @Override
+    public String getTableName() {
+        return "UserPaymentDetails";
+    }
 
-    public int getIdFromBusinessId(int businessId){
+    public int getIdFromUserId(int userId){
         int desiredField = -1;
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sql = "SELECT id FROM \"" + getTableName() + "\" WHERE business_id = ?";
+            String sql = "SELECT id FROM \"" + getTableName() + "\" WHERE user_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, businessId);
+            statement.setInt(1, userId);
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -24,21 +27,13 @@ public class BusinessDetailsTableManager extends TableManager{
         return desiredField;
     }
 
-    public String getTableName() {
-        return "BusinessDetails";
-    }
-
+    @Override
     public boolean addNewRow(Object... params) {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sqlCommand = "INSERT INTO \"BusinessDetails\" (" + params[0] +") VALUES (?)";
+            String sqlCommand = "INSERT INTO \"UserPaymentDetails\" (user_id) VALUES (?)";
             PreparedStatement statement = connection.prepareStatement(sqlCommand);
 
-            if (params[1] instanceof Integer) {
-                statement.setInt(1, (Integer) params[1]);
-            }
-            else if (params[1] instanceof String) {
-                statement.setString(1, (String) params[1]);
-            }
+            statement.setInt(1, (int) params[0]);
 
             statement.executeUpdate();
         } catch (SQLException e) {

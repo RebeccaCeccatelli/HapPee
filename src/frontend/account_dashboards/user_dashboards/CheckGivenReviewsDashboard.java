@@ -1,31 +1,31 @@
-package frontend.account_dashboards.business_dashboards;
+package frontend.account_dashboards.user_dashboards;
 
-import backend.Business;
 import backend.Review;
+import backend.User;
 import database.BusinessTableManager;
-import database.UserTableManager;
 import frontend.Interface;
-import javafx.application.Application;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
-public class CheckReviewsDashboard extends Interface {
-    private Business business;
+public class CheckGivenReviewsDashboard extends Interface {
+    private User user;
 
-    public CheckReviewsDashboard(Business business) {
-        this.business = business;
+    public CheckGivenReviewsDashboard(User user) {
+        this.user = user;
     }
 
     private void showReview(Review review) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Show review");
-        String userName = new UserTableManager().getStringFromDB(review.getUserId(), "name");
+        String businessName = new BusinessTableManager().getStringFromDB(review.getBusinessId(), "name");
 
-        alert.setHeaderText("Review from: " + userName + ". ");
+        alert.setHeaderText("Review on: " + businessName + ". ");
 
         alert.setContentText("Date: " + review.getDate() + ", Time: " + review.getTime() +
                 "\nText: " + review.getText() +
@@ -39,20 +39,17 @@ public class CheckReviewsDashboard extends Interface {
     public void start(Stage primaryStage) {
         setPrimaryStage(primaryStage);
         setGridPane();
-        ArrayList<Review> reviews = business.getReviews();
+        ArrayList<Review> reviews = user.getReviews();
 
-        Label listLabel = new Label("Here is the list of the reviews on your business: ");
+        Label listLabel = new Label("Here is the list of the reviews you submitted: ");
         Button backButton = createButton("Back", e -> goBack());
 
         addToGridPane(listLabel, 0, 0);
         if (!reviews.isEmpty()){
-            Label averageRatingLabel = new Label("Average rating: " + business.getAverageRating());
-            addToGridPane(averageRatingLabel, 0, 1);
-
-            int i = 2;
+            int i = 1;
             for (Review review : reviews) {
-                String userName = new UserTableManager().getStringFromDB(review.getUserId(), "name");
-                Label reviewLabel = new Label("Review from '"+ userName + "': ");
+                String businessName = new BusinessTableManager().getStringFromDB(review.getBusinessId(), "name");
+                Label reviewLabel = new Label("You reviewed '"+ businessName + "': ");
                 Button openReviewButton = createButton("Open review", e -> showReview(review));
 
                 addToGridPane(reviewLabel, 0, i);
@@ -62,11 +59,11 @@ public class CheckReviewsDashboard extends Interface {
             addToGridPane(backButton, 0, i);
         }
         else {
-            Label emptyListLabel = new Label("You haven't been reviewed yet.");
+            Label emptyListLabel = new Label("You haven't submitted any reviews yet.");
             addToGridPane(emptyListLabel, 0, 1);
             addToGridPane(backButton, 0, 2);
         }
 
-        showCurrentInterface("Check reviews");
+        showCurrentInterface("Check given reviews");
     }
 }

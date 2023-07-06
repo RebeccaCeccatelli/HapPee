@@ -1,6 +1,8 @@
 package frontend;
 
+import database.BusinessDetailsTableManager;
 import database.TableManager;
+import database.UserPaymentDetailsTableManager;
 import database.UserTableManager;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -56,6 +58,12 @@ public class UserSignUpInterface extends SignUpInterface {
 
     protected Object getSpecificField() {
         return surnameField.getText();
+    }
+
+    @Override
+    protected void optional(TableManager tableManager, String email) {
+        int userId = tableManager.getAccountId(email);
+        new UserPaymentDetailsTableManager().addNewRow(userId);
     }
 }
 

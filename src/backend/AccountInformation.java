@@ -2,12 +2,12 @@ package backend;
 
 import database.TableManager;
 
-public class AccountInformation {
+public abstract class AccountInformation {
     protected int id;
     protected String name;
     protected String email;
     protected String password;
-    private TableManager tableManager;
+    protected TableManager tableManager;
 
     public AccountInformation(int id, TableManager tableManager) {
         this.tableManager = tableManager;
@@ -58,4 +58,8 @@ public class AccountInformation {
     public int getId() {
         return this.id;
     }
+
+    public abstract void saveSpecificField(Object... params);
+
+    public abstract Object getSpecificField();
 }

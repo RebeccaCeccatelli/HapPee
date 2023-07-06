@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class UserTableManager extends TableManager {
 
-    public String getClientType() {
+    public String getTableName() {
         return "User";
     }
 
@@ -26,7 +26,7 @@ public class UserTableManager extends TableManager {
         return true;
     }
 
-    public boolean checkUser(String email, String password) {
+    public boolean checkUserExistence(String email, String password) {
         boolean result = false;
         String query = "SELECT * FROM \"User\" WHERE email = ? AND password = ?";
 

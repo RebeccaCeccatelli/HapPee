@@ -7,7 +7,7 @@ public abstract class TableManager {
     protected static final String DB_USER = "postgres";
     protected static final String DB_PASSWORD = "Pianoforte2000!";
 
-    public abstract String getClientType ();
+    public abstract String getTableName();
 
     public abstract boolean addNewRow(Object... params);
 
@@ -32,7 +32,7 @@ public abstract class TableManager {
     public int getAccountId(String email) {
         int id = 0;
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sql = "SELECT id FROM \"" + getClientType() + "\" WHERE email = ?";
+            String sql = "SELECT id FROM \"" + getTableName() + "\" WHERE email = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, email);
 
@@ -52,7 +52,7 @@ public abstract class TableManager {
     public int getIntFromDB(int id, String column){
         int desiredField = -1;
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sql = "SELECT " + column + " FROM \"" + getClientType() + "\" WHERE id = ?";
+            String sql = "SELECT " + column + " FROM \"" + getTableName() + "\" WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
 
@@ -71,7 +71,7 @@ public abstract class TableManager {
     public float getFLoatFromDB(int id, String column) {
         float desiredField = 0;
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sql = "SELECT " + column + " FROM \"" + getClientType() + "\" WHERE id = ?";
+            String sql = "SELECT " + column + " FROM \"" + getTableName() + "\" WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
 
@@ -90,7 +90,7 @@ public abstract class TableManager {
     public Time getTimeFromDB(int id, String column) {
         Time desiredField = null;
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sql = "SELECT " + column + " FROM \"" + getClientType() + "\" WHERE id = ?";
+            String sql = "SELECT " + column + " FROM \"" + getTableName() + "\" WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
 
@@ -109,7 +109,7 @@ public abstract class TableManager {
     public String getStringFromDB(int id, String column){
         String desiredField = null;
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sql = "SELECT " + column + " FROM \"" + getClientType() + "\" WHERE id = ?";
+            String sql = "SELECT " + column + " FROM \"" + getTableName() + "\" WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
 
@@ -127,7 +127,7 @@ public abstract class TableManager {
 
     public boolean update(int id, String column, Object value) {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sqlCommand = "UPDATE \"" + getClientType() + "\" SET " + column + " = ? WHERE id = ?";
+            String sqlCommand = "UPDATE \"" + getTableName() + "\" SET " + column + " = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sqlCommand);
 
             statement.setObject(1, value);
