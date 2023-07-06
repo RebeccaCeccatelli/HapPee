@@ -1,6 +1,5 @@
 package frontend;
 
-import database.BusinessDetailsTableManager;
 import database.TableManager;
 import database.UserPaymentDetailsTableManager;
 import database.UserTableManager;

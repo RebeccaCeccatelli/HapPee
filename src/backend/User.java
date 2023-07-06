@@ -80,7 +80,4 @@ public class User  extends Account{
     public void addReview(Review review) {
         reviews.add(review);
     }
-
-
-
 }

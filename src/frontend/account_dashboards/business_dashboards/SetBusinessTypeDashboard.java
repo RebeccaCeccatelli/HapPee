@@ -2,6 +2,7 @@ package frontend.account_dashboards.business_dashboards;
 
 import backend.Business;
 import frontend.Interface;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;

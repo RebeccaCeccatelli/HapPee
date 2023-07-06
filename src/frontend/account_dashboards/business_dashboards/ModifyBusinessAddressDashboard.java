@@ -2,14 +2,12 @@ package frontend.account_dashboards.business_dashboards;
 
 import backend.Account;
 import backend.Address;
-import backend.Business;
 import frontend.Interface;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import java.util.concurrent.TimeoutException;
 
 public class ModifyBusinessAddressDashboard extends Interface {
     private Account business;

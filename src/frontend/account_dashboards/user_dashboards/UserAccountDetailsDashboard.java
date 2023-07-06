@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
-
 import java.util.Optional;
 
 public class UserAccountDetailsDashboard extends AccountDetailsDashboard {

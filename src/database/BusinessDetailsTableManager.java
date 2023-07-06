@@ -1,6 +1,5 @@
 package database;
 
-
 import java.sql.*;
 
 public class BusinessDetailsTableManager extends TableManager{

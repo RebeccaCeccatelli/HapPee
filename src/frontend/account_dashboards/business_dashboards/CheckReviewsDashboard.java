@@ -2,10 +2,8 @@ package frontend.account_dashboards.business_dashboards;
 
 import backend.Business;
 import backend.Review;
-import database.BusinessTableManager;
 import database.UserTableManager;
 import frontend.Interface;
-import javafx.application.Application;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

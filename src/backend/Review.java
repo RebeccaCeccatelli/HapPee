@@ -34,17 +34,6 @@ public class Review {
         new ReviewTableManager().addNewRow(userId, businessId, text, rating, date, time);
     }
 
-    public void modifyReviewText(String newText) {
-        this.text = newText;
-    }
-
-    //TODO modify and adapt to interface and views
-    public void showReview(){
-        System.out.println(text);
-        System.out.println(rating);
-        //TODO add show photos
-    }
-
     public int getBusinessId() {
         return businessId;
     }
