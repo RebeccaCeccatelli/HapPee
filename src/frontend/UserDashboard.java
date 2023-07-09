@@ -1,5 +1,6 @@
 package frontend;
 
+import backend.Map;
 import backend.User;
 import frontend.account_dashboards.user_dashboards.AddReviewDashboard;
 import frontend.account_dashboards.user_dashboards.CheckGivenReviewsDashboard;
@@ -85,7 +86,8 @@ public class UserDashboard extends Dashboard {
     }
 
     private void findARestroom() {
-        //qui si aprirà la mappa
+        Map map = new Map();
+        map.display();
     }
 
     private void addReview() {

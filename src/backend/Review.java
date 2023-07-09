@@ -1,6 +1,6 @@
 package backend;
 
-import database.ReviewTableManager;
+import database.ReviewDAO;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -31,7 +31,7 @@ public class Review {
     }
 
     public void save() {
-        new ReviewTableManager().addNewRow(userId, businessId, text, rating, date, time);
+        new ReviewDAO().addNewRow(userId, businessId, text, rating, date, time);
     }
 
     public int getBusinessId() {

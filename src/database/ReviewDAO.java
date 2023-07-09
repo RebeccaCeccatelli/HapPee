@@ -5,7 +5,7 @@ import backend.Review;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ReviewTableManager extends TableManager {
+public class ReviewDAO extends DAO {
 
     public String getTableName() {
         return "Review";

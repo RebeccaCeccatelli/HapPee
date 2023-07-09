@@ -1,18 +1,18 @@
 package backend;
 
 
-import database.ReviewTableManager;
-import database.UserPaymentDetailsTableManager;
+import database.ReviewDAO;
+import database.UserPaymentDetailsDAO;
 
 public class User  extends Account{
-    private Position position;
+    private Coordinates position;
     private String subscription;
     private float creditBalance;
-    private UserPaymentDetailsTableManager userPaymentDetailsTableManager = new UserPaymentDetailsTableManager();
+    private UserPaymentDetailsDAO userPaymentDetailsTableManager = new UserPaymentDetailsDAO();
 
     public User(int id) {
         information = new UserInformation(id);
-        reviews = new ReviewTableManager().getReviewsByAccountId(id, "user_id");
+        reviews = new ReviewDAO().getReviewsByAccountId(id, "user_id");
         int userPaymentDetailsId = userPaymentDetailsTableManager.getIdFromUserId(id);
         subscription = userPaymentDetailsTableManager.getStringFromDB(userPaymentDetailsId, "subscription");
         creditBalance = userPaymentDetailsTableManager.getFLoatFromDB(userPaymentDetailsId, "credit");

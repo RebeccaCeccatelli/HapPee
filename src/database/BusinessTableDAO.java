@@ -3,10 +3,10 @@ package database;
 import java.sql.*;
 import backend.Address;
 
-public class BusinessTableManager extends TableManager {
+public class BusinessTableDAO extends DAO {
 
     public boolean addNewRow(Object... params) {
-        AddressTableManager addressTableManager = new AddressTableManager();
+        AddressDAO addressTableManager = new AddressDAO();
         addressTableManager.addNewRow(params[1]);
         int addressId = addressTableManager.getAddressId();
 
@@ -67,6 +67,28 @@ public class BusinessTableManager extends TableManager {
             e.printStackTrace();
         }
         return id;
+    }
+
+    public int getBusinessIdFromAddressId(int addressId) {
+        int businessId = 0;
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+            String query = "SELECT id FROM \"Business\" WHERE address_id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, addressId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    businessId = resultSet.getInt("id");
+                }
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return businessId;
     }
 
     public Address getAddressFromDatabase(int businessId) {

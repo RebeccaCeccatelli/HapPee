@@ -1,20 +1,20 @@
 package backend;
 
-import database.AddressTableManager;
-import database.BusinessTableManager;
+import database.AddressDAO;
+import database.BusinessTableDAO;
 
 public class BusinessInformation extends AccountInformation{
     private Address address;
 
     public BusinessInformation(int businessId) {
-        super(businessId, new BusinessTableManager());
-        this.address = new BusinessTableManager().getAddressFromDatabase(businessId);
+        super(businessId, new BusinessTableDAO());
+        this.address = new BusinessTableDAO().getAddressFromDatabase(businessId);
     }
 
     public void saveSpecificField(Object... params) {
         setAddress(params[0], params[1], params[2], params[3], params[4]);
-        AddressTableManager addressTableManager = new AddressTableManager();
-        int addressId = new BusinessTableManager().getIntFromDB(getId(), "address_id");
+        AddressDAO addressTableManager = new AddressDAO();
+        int addressId = new BusinessTableDAO().getIntFromDB(getId(), "address_id");
         addressTableManager.update(addressId, "street", params[0]);
         addressTableManager.update(addressId, "civic_number", params[1]);
         addressTableManager.update(addressId, "postcode", params[2]);

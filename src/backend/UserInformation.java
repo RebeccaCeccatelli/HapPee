@@ -1,13 +1,13 @@
 package backend;
 
-import database.UserTableManager;
+import database.UserDAO;
 
 public class UserInformation extends AccountInformation {
     private String surname;
 
     public UserInformation(int id) {
-        super(id, new UserTableManager());
-        this.surname = new UserTableManager().getStringFromDB(id, "surname");
+        super(id, new UserDAO());
+        this.surname = new UserDAO().getStringFromDB(id, "surname");
     }
 
     public void saveSpecificField(Object... params) {

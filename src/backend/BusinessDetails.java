@@ -1,6 +1,6 @@
 package backend;
 
-import database.BusinessDetailsTableManager;
+import database.BusinessDetailsDAO;
 
 import java.sql.*;
 
@@ -10,7 +10,7 @@ public class BusinessDetails {
     private float singleAccessPrice;
     private Time openingTime;
     private Time closingTime;
-    private BusinessDetailsTableManager businessDetailsTableManager = new BusinessDetailsTableManager();
+    private BusinessDetailsDAO businessDetailsTableManager = new BusinessDetailsDAO();
 
 
     public BusinessDetails(int businessId) {

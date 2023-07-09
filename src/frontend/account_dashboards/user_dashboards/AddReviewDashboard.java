@@ -1,7 +1,7 @@
 package frontend.account_dashboards.user_dashboards;
 
 import backend.User;
-import database.BusinessTableManager;
+import database.BusinessTableDAO;
 import frontend.Interface;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,7 +23,7 @@ public class AddReviewDashboard extends Interface {
         String text = reviewField.getText();
         float rating = Float.parseFloat(ratingField.getText());
 
-        int businessId = new BusinessTableManager().checkBusinessName(businessName);
+        int businessId = new BusinessTableDAO().checkBusinessName(businessName);
         if (businessId == -1) {
             showAlert("Invalid business name", "We couldn't find the business name you entered. Try again.");
             businessNameField.clear();

@@ -2,7 +2,7 @@ package database;
 
 import java.sql.*;
 
-public class UserPaymentDetailsTableManager extends TableManager {
+public class UserPaymentDetailsDAO extends DAO {
     @Override
     public String getTableName() {
         return "UserPaymentDetails";

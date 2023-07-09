@@ -1,9 +1,9 @@
 package frontend;
 
 import backend.Address;
-import database.BusinessDetailsTableManager;
-import database.BusinessTableManager;
-import database.TableManager;
+import database.BusinessDetailsDAO;
+import database.BusinessTableDAO;
+import database.DAO;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
@@ -14,8 +14,8 @@ public class BusinessSignUpInterface extends SignUpInterface {
     private TextField cityField;
     private TextField countryField;
 
-    protected TableManager getTableManager() {
-        return new BusinessTableManager();
+    protected DAO getTableManager() {
+        return new BusinessTableDAO();
     }
 
     @Override
@@ -74,9 +74,9 @@ public class BusinessSignUpInterface extends SignUpInterface {
         showCurrentInterface("Business Registration");
     }
 
-    protected void optional(TableManager tableManager, String email){
+    protected void optional(DAO tableManager, String email){
         int businessId = tableManager.getAccountId(email);
-        new BusinessDetailsTableManager().addNewRow("business_id", businessId);
+        new BusinessDetailsDAO().addNewRow("business_id", businessId);
     }
 
     protected Dashboard getDashboard(int id) {

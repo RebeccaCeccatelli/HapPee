@@ -2,7 +2,7 @@ package database;
 
 import java.sql.*;
 
-public abstract class TableManager {
+public abstract class DAO {
     protected static final String DB_URL = "jdbc:postgresql://localhost:5432/HapPee";
     protected static final String DB_USER = "postgres";
     protected static final String DB_PASSWORD = "Pianoforte2000!";

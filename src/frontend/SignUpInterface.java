@@ -1,6 +1,6 @@
 package frontend;
 
-import database.TableManager;
+import database.DAO;
 import javafx.scene.control.*;
 
 public abstract class SignUpInterface extends Interface {
@@ -10,7 +10,7 @@ public abstract class SignUpInterface extends Interface {
     protected PasswordField confirmPasswordField;
 
     protected void register() {
-        TableManager tableManager = getTableManager();
+        DAO tableManager = getTableManager();
         String name = nameField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
@@ -35,10 +35,10 @@ public abstract class SignUpInterface extends Interface {
         }
     }
 
-    protected abstract TableManager getTableManager();
+    protected abstract DAO getTableManager();
 
     //FIXME this method probably to be changed
-    protected void optional(TableManager tableManager, String email){}
+    protected void optional(DAO tableManager, String email){}
 
     protected abstract Object getSpecificField();
 

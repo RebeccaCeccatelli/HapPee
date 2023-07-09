@@ -1,15 +1,15 @@
 package backend;
 
-import database.TableManager;
+import database.DAO;
 
 public abstract class AccountInformation {
     protected int id;
     protected String name;
     protected String email;
     protected String password;
-    protected TableManager tableManager;
+    protected DAO tableManager;
 
-    public AccountInformation(int id, TableManager tableManager) {
+    public AccountInformation(int id, DAO tableManager) {
         this.tableManager = tableManager;
         this.id = id;
         this.name = tableManager.getStringFromDB(id, "name");

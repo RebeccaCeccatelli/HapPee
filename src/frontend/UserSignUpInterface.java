@@ -1,8 +1,8 @@
 package frontend;
 
-import database.TableManager;
-import database.UserPaymentDetailsTableManager;
-import database.UserTableManager;
+import database.DAO;
+import database.UserPaymentDetailsDAO;
+import database.UserDAO;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
@@ -47,8 +47,8 @@ public class UserSignUpInterface extends SignUpInterface {
         showCurrentInterface("Sign up");
     }
 
-    protected TableManager getTableManager() {
-        return new UserTableManager();
+    protected DAO getTableManager() {
+        return new UserDAO();
     }
 
     protected Dashboard getDashboard(int id) {
@@ -60,9 +60,9 @@ public class UserSignUpInterface extends SignUpInterface {
     }
 
     @Override
-    protected void optional(TableManager tableManager, String email) {
+    protected void optional(DAO tableManager, String email) {
         int userId = tableManager.getAccountId(email);
-        new UserPaymentDetailsTableManager().addNewRow(userId);
+        new UserPaymentDetailsDAO().addNewRow(userId);
     }
 }
 

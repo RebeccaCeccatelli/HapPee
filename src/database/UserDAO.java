@@ -2,7 +2,7 @@ package database;
 
 import java.sql.*;
 
-public class UserTableManager extends TableManager {
+public class UserDAO extends DAO {
 
     public String getTableName() {
         return "User";

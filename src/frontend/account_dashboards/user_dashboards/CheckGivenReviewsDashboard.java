@@ -2,7 +2,7 @@ package frontend.account_dashboards.user_dashboards;
 
 import backend.Review;
 import backend.User;
-import database.BusinessTableManager;
+import database.BusinessTableDAO;
 import frontend.Interface;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -20,7 +20,7 @@ public class CheckGivenReviewsDashboard extends Interface {
     private void showReview(Review review) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Show review");
-        String businessName = new BusinessTableManager().getStringFromDB(review.getBusinessId(), "name");
+        String businessName = new BusinessTableDAO().getStringFromDB(review.getBusinessId(), "name");
 
         alert.setHeaderText("Review on: " + businessName + ". ");
 
@@ -45,7 +45,7 @@ public class CheckGivenReviewsDashboard extends Interface {
         if (!reviews.isEmpty()){
             int i = 1;
             for (Review review : reviews) {
-                String businessName = new BusinessTableManager().getStringFromDB(review.getBusinessId(), "name");
+                String businessName = new BusinessTableDAO().getStringFromDB(review.getBusinessId(), "name");
                 Label reviewLabel = new Label("You reviewed '"+ businessName + "': ");
                 Button openReviewButton = createButton("Open review", e -> showReview(review));
 

@@ -2,7 +2,7 @@ package frontend.account_dashboards.business_dashboards;
 
 import backend.Business;
 import backend.Review;
-import database.UserTableManager;
+import database.UserDAO;
 import frontend.Interface;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -21,7 +21,7 @@ public class CheckReviewsDashboard extends Interface {
     private void showReview(Review review) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Show review");
-        String userName = new UserTableManager().getStringFromDB(review.getUserId(), "name");
+        String userName = new UserDAO().getStringFromDB(review.getUserId(), "name");
 
         alert.setHeaderText("Review from: " + userName + ". ");
 
@@ -49,7 +49,7 @@ public class CheckReviewsDashboard extends Interface {
 
             int i = 2;
             for (Review review : reviews) {
-                String userName = new UserTableManager().getStringFromDB(review.getUserId(), "name");
+                String userName = new UserDAO().getStringFromDB(review.getUserId(), "name");
                 Label reviewLabel = new Label("Review from '"+ userName + "': ");
                 Button openReviewButton = createButton("Open review", e -> showReview(review));
 

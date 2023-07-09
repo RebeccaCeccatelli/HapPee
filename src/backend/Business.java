@@ -1,17 +1,17 @@
 package backend;
 
-import database.ReviewTableManager;
+import database.ReviewDAO;
 
 import java.sql.Time;
 
 public class Business extends Account {
     private BusinessDetails details;
-    private Position position;
+    private Coordinates position;
 
     public Business(int id) {
         this.information = new BusinessInformation(id);
         this.details = new BusinessDetails(id);
-        this.reviews = new ReviewTableManager().getReviewsByAccountId(id, "business_id");
+        this.reviews = new ReviewDAO().getReviewsByAccountId(id, "business_id");
     }
 
     public BusinessDetails getDetails() {

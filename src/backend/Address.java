@@ -54,4 +54,9 @@ public class Address{
     public void setCountry(String country) {
         this.country = country;
     }
+
+    //valutare se spostare questo come metodo di Map, invece che qui
+    public String getAddressAsString() {
+        return street + " " + civicNumber + ", " + postCode + " " + city + ", " + country;
+    }
 }

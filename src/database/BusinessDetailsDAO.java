@@ -2,7 +2,7 @@ package database;
 
 import java.sql.*;
 
-public class BusinessDetailsTableManager extends TableManager{
+public class BusinessDetailsDAO extends DAO {
 
     public int getIdFromBusinessId(int businessId){
         int desiredField = -1;
