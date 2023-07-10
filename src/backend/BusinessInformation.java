@@ -13,13 +13,13 @@ public class BusinessInformation extends AccountInformation{
 
     public void saveSpecificField(Object... params) {
         setAddress(params[0], params[1], params[2], params[3], params[4]);
-        AddressDAO addressTableManager = new AddressDAO();
+        AddressDAO addressDAO = new AddressDAO();
         int addressId = new BusinessDAO().getIntFromDB(getId(), "address_id");
-        addressTableManager.update(addressId, "street", params[0]);
-        addressTableManager.update(addressId, "civic_number", params[1]);
-        addressTableManager.update(addressId, "postcode", params[2]);
-        addressTableManager.update(addressId, "city", params[3]);
-        addressTableManager.update(addressId, "country", params[4]);
+        addressDAO.update(addressId, "street", params[0]);
+        addressDAO.update(addressId, "civic_number", params[1]);
+        addressDAO.update(addressId, "postcode", params[2]);
+        addressDAO.update(addressId, "city", params[3]);
+        addressDAO.update(addressId, "country", params[4]);
     }
 
     public void setAddress(Object... params) {

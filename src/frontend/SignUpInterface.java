@@ -10,13 +10,13 @@ public abstract class SignUpInterface extends Interface {
     protected PasswordField confirmPasswordField;
 
     protected void register() {
-        DAO tableManager = getTableManager();
+        DAO DAO = getDAO();
         String name = nameField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
 
-        if (tableManager.emailAlreadyExists(email)) {
+        if (DAO.emailAlreadyExists(email)) {
             showAlert("Email already exists", "Please enter a new email");
             emailField.clear();
         }
@@ -26,19 +26,19 @@ public abstract class SignUpInterface extends Interface {
             passwordField.clear();
             confirmPasswordField.clear();
         } else {
-            if (tableManager.addNewRow(name, getSpecificField(), email, password)){
-                optional(tableManager, email);
+            if (DAO.addNewRow(name, getSpecificField(), email, password)){
+                optional(DAO, email);
                 showConfirmationDialog("Registration Completed", "Registration successfully completed!");
-                Dashboard dashboard = getDashboard(tableManager.getAccountId(email));
+                Dashboard dashboard = getDashboard(DAO.getAccountId(email));
                 showNextInterface(dashboard);
             }
         }
     }
 
-    protected abstract DAO getTableManager();
+    protected abstract DAO getDAO();
 
     //FIXME this method probably to be changed
-    protected void optional(DAO tableManager, String email){}
+    protected void optional(DAO DAO, String email){}
 
     protected abstract Object getSpecificField();
 

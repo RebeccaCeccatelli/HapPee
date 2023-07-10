@@ -39,17 +39,17 @@ public class SignInInterface extends Interface {
         String email = emailTextField.getText();
         String password = passwordField.getText();
 
-        UserDAO userTableManager = new UserDAO();
+        UserDAO userDAO = new UserDAO();
         //TODO qui c'è codice che può essere messo tutto insieme, sistemare i table managers
-        BusinessDAO businessTableManager = new BusinessDAO();
-        if (userTableManager.checkUserExistence(email, password)) {
+        BusinessDAO businessDAO = new BusinessDAO();
+        if (userDAO.checkUserExistence(email, password)) {
             clearPersonalFields();
-            UserDashboard userDashboard = new UserDashboard(userTableManager.getAccountId(email));
+            UserDashboard userDashboard = new UserDashboard(userDAO.getAccountId(email));
             showNextInterface(userDashboard);
         }
-        else if (businessTableManager.checkBusinessExistence(email, password)) {
+        else if (businessDAO.checkBusinessExistence(email, password)) {
             clearPersonalFields();
-            BusinessDashboard businessDashboard = new BusinessDashboard(businessTableManager.getAccountId(email));
+            BusinessDashboard businessDashboard = new BusinessDashboard(businessDAO.getAccountId(email));
             showNextInterface(businessDashboard);
         }
         else {

@@ -11,16 +11,16 @@ public class BusinessDetails {
     private Time openingTime;
     private Time closingTime;
     private int accessCode;
-    private BusinessDetailsDAO businessDetailsTableManager = new BusinessDetailsDAO();
+    private BusinessDetailsDAO businessDetailsDAO = new BusinessDetailsDAO();
 
 
     public BusinessDetails(int businessId) {
-        this.id = businessDetailsTableManager.getIdFromBusinessId(businessId);
-        this.businessType = businessDetailsTableManager.getStringFromDB(id, "business_type");
-        this.singleAccessPrice = businessDetailsTableManager.getFLoatFromDB(id, "single_access_price");
-        this.openingTime = businessDetailsTableManager.getTimeFromDB(id, "opening_time");
-        this.closingTime = businessDetailsTableManager.getTimeFromDB(id, "closing_time");
-        this.accessCode = businessDetailsTableManager.getIntFromDB(id, "access_code");
+        this.id = businessDetailsDAO.getIdFromBusinessId(businessId);
+        this.businessType = businessDetailsDAO.getStringFromDB(id, "business_type");
+        this.singleAccessPrice = businessDetailsDAO.getFLoatFromDB(id, "single_access_price");
+        this.openingTime = businessDetailsDAO.getTimeFromDB(id, "opening_time");
+        this.closingTime = businessDetailsDAO.getTimeFromDB(id, "closing_time");
+        this.accessCode = businessDetailsDAO.getIntFromDB(id, "access_code");
     }
 
     public float getAccessPrice() {
@@ -35,12 +35,12 @@ public class BusinessDetails {
 
     public void saveAccessPrice(float accessPrice) {
         setAccessPrice(accessPrice);
-        businessDetailsTableManager.update(id, "single_access_price", accessPrice);
+        businessDetailsDAO.update(id, "single_access_price", accessPrice);
     }
 
     public void saveAccessCode(int accessCode) {
         setAccessCode(accessCode);
-        businessDetailsTableManager.update(id, "access_code", accessCode);
+        businessDetailsDAO.update(id, "access_code", accessCode);
     }
 
     private void setAccessCode(int accessCode) {
@@ -49,7 +49,7 @@ public class BusinessDetails {
 
     public void saveBusinessType(String businessType) {
         setBusinessType(businessType);
-        businessDetailsTableManager.update(id, "business_type", businessType);
+        businessDetailsDAO.update(id, "business_type", businessType);
     }
 
     private void setBusinessType(String businessType) {
@@ -62,7 +62,7 @@ public class BusinessDetails {
 
     public void saveTime(Time time, String type) {
         setTime(time, type);
-        businessDetailsTableManager.update(id, type, time);
+        businessDetailsDAO.update(id, type, time);
     }
 
     private void setTime(Time time, String type) {

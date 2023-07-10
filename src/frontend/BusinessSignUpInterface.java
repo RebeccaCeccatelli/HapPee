@@ -14,7 +14,7 @@ public class BusinessSignUpInterface extends SignUpInterface {
     private TextField cityField;
     private TextField countryField;
 
-    protected DAO getTableManager() {
+    protected DAO getDAO() {
         return new BusinessDAO();
     }
 
@@ -74,8 +74,8 @@ public class BusinessSignUpInterface extends SignUpInterface {
         showCurrentInterface("Business Registration");
     }
 
-    protected void optional(DAO tableManager, String email){
-        int businessId = tableManager.getAccountId(email);
+    protected void optional(DAO DAO, String email){
+        int businessId = DAO.getAccountId(email);
         new BusinessDetailsDAO().addNewRow("business_id", businessId);
     }
 

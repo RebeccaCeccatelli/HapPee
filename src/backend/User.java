@@ -5,17 +5,16 @@ import database.ReviewDAO;
 import database.UserPaymentDetailsDAO;
 
 public class User  extends Account{
-    private Coordinates position;
     private String subscription;
     private float creditBalance;
-    private UserPaymentDetailsDAO userPaymentDetailsTableManager = new UserPaymentDetailsDAO();
+    private UserPaymentDetailsDAO userPaymentDetailsDAO = new UserPaymentDetailsDAO();
 
     public User(int id) {
         information = new UserInformation(id);
         reviews = new ReviewDAO().getReviewsByAccountId(id, "user_id");
-        int userPaymentDetailsId = userPaymentDetailsTableManager.getIdFromUserId(id);
-        subscription = userPaymentDetailsTableManager.getStringFromDB(userPaymentDetailsId, "subscription");
-        creditBalance = userPaymentDetailsTableManager.getFLoatFromDB(userPaymentDetailsId, "credit");
+        int userPaymentDetailsId = userPaymentDetailsDAO.getIdFromUserId(id);
+        subscription = userPaymentDetailsDAO.getStringFromDB(userPaymentDetailsId, "subscription");
+        creditBalance = userPaymentDetailsDAO.getFLoatFromDB(userPaymentDetailsId, "credit");
     }
 
     public boolean upgradeToPremiumSubscription() {
@@ -45,8 +44,8 @@ public class User  extends Account{
     }
 
     public void saveCreditBalance() {
-        userPaymentDetailsTableManager.update(
-                userPaymentDetailsTableManager.getIdFromUserId(getId()), "credit", creditBalance
+        userPaymentDetailsDAO.update(
+                userPaymentDetailsDAO.getIdFromUserId(getId()), "credit", creditBalance
         );
     }
 
@@ -61,8 +60,8 @@ public class User  extends Account{
     private void saveSubscription(String subscription) {
         setSubscription(subscription);
 
-        userPaymentDetailsTableManager.update(
-                userPaymentDetailsTableManager.getIdFromUserId(getId()), "subscription", "premium" );
+        userPaymentDetailsDAO.update(
+                userPaymentDetailsDAO.getIdFromUserId(getId()), "subscription", "premium" );
     }
 
     public void setSubscription(String subscription) {

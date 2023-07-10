@@ -7,18 +7,18 @@ public abstract class AccountInformation {
     protected String name;
     protected String email;
     protected String password;
-    protected DAO tableManager;
+    protected DAO DAO;
 
-    public AccountInformation(int id, DAO tableManager) {
-        this.tableManager = tableManager;
+    public AccountInformation(int id, DAO DAO) {
+        this.DAO = DAO;
         this.id = id;
-        this.name = tableManager.getStringFromDB(id, "name");
-        this.email = tableManager.getStringFromDB(id, "name");
-        this.password = tableManager.getStringFromDB(id, "password");
+        this.name = DAO.getStringFromDB(id, "name");
+        this.email = DAO.getStringFromDB(id, "name");
+        this.password = DAO.getStringFromDB(id, "password");
     }
     public void saveName(String newName) {
         setName(newName);
-        tableManager.update(id, "name", newName);
+        DAO.update(id, "name", newName);
     }
 
     private void setEmail(String newEmail) {
@@ -27,7 +27,7 @@ public abstract class AccountInformation {
 
     public void saveEmail(String newEmail) {
         setEmail(newEmail);
-        tableManager.update(id, "email", newEmail);
+        DAO.update(id, "email", newEmail);
     }
 
     private void setPassword(String newPassword) {
@@ -36,7 +36,7 @@ public abstract class AccountInformation {
 
     public void savePassword(String newPassword) {
         setPassword(newPassword);
-        tableManager.update(id, "password", newPassword);
+        DAO.update(id, "password", newPassword);
     }
 
     private void setName(String newName) {

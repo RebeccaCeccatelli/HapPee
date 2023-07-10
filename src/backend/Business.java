@@ -37,10 +37,13 @@ public class Business extends Account {
 
     public float getAverageRating() {
         float average = 0;
-        for (Review review : reviews) {
-            average += review.getRating();
+        if (reviews.size() != 0) {
+            for (Review review : reviews) {
+                average += review.getRating();
+            }
+            return average / reviews.size();
         }
-        return average / reviews.size();
+        return average;
     }
 
     public Object getSpecificField() {

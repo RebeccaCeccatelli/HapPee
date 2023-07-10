@@ -60,13 +60,21 @@
         }
     }
 
-    function setBusinessPopup(businessName, businessType, accessPrice, openingTime, closingTime) {
+    function setBusinessPopup(businessName, businessType, accessPrice, rating, openingTime, closingTime) {
         var popupContent = document.createElement('div');
         popupContent.innerHTML += '<br>Business name: ' + businessName + '.';
         popupContent.innerHTML += '<br>Type: ' + businessType + '.';
         popupContent.innerHTML += '<br>Pay-per-use Access Price: ' + accessPrice + '$.';
+        var ratingText;
+        if(rating == 0) {
+            ratingText = '<br>Rating (out of 5): No reviews yet.';
+        }
+        else {
+            ratingText = '<br>Rating (out of 5): ' + rating + '.';
+        }
+        popupContent.innerHTML += ratingText;
         popupContent.innerHTML += '<br>Opening time: ' + openingTime + '.';
-        popupContent.innerHTML += '<br>Closing time: ' + closingTime;
+        popupContent.innerHTML += '<br>Closing time: ' + closingTime + '.';
         marker.bindPopup(popupContent);
     }
 

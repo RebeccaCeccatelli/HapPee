@@ -47,7 +47,7 @@ public class UserSignUpInterface extends SignUpInterface {
         showCurrentInterface("Sign up");
     }
 
-    protected DAO getTableManager() {
+    protected DAO getDAO() {
         return new UserDAO();
     }
 
@@ -60,8 +60,8 @@ public class UserSignUpInterface extends SignUpInterface {
     }
 
     @Override
-    protected void optional(DAO tableManager, String email) {
-        int userId = tableManager.getAccountId(email);
+    protected void optional(DAO DAO, String email) {
+        int userId = DAO.getAccountId(email);
         new UserPaymentDetailsDAO().addNewRow(userId);
     }
 }

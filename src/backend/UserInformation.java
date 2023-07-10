@@ -13,7 +13,7 @@ public class UserInformation extends AccountInformation {
     public void saveSpecificField(Object... params) {
         String newSurname = (String) params[0];
         setSurname(newSurname);
-        tableManager.update(id, "surname", newSurname);
+        DAO.update(id, "surname", newSurname);
     }
 
     private void setSurname(String newSurname) {

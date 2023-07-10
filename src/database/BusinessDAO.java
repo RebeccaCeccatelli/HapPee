@@ -10,9 +10,9 @@ import backend.Review;
 public class BusinessDAO extends DAO {
 
     public boolean addNewRow(Object... params) {
-        AddressDAO addressTableManager = new AddressDAO();
-        addressTableManager.addNewRow(params[1]);
-        int addressId = addressTableManager.getAddressId();
+        AddressDAO addressDAO = new AddressDAO();
+        addressDAO.addNewRow(params[1]);
+        int addressId = addressDAO.getAddressId();
 
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sqlCommand = "INSERT INTO \"Business\" (name, address_id, email, password) VALUES (?, ?, ?, ?)";

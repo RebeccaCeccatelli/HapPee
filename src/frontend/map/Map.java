@@ -79,6 +79,7 @@ public class Map {
                         + business.getName() + "', '"
                         + businessDetails.getBusinessType() + "', '"
                         + businessDetails.getAccessPrice() + "', '"
+                        + business.getAverageRating() + "', '"
                         + businessDetails.getOpeningTime() + "', '"
                         + businessDetails.getClosingTime() + "');");
             }
