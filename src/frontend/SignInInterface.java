@@ -1,6 +1,6 @@
 package frontend;
 
-import database.BusinessTableDAO;
+import database.BusinessDAO;
 import database.UserDAO;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -41,7 +41,7 @@ public class SignInInterface extends Interface {
 
         UserDAO userTableManager = new UserDAO();
         //TODO qui c'è codice che può essere messo tutto insieme, sistemare i table managers
-        BusinessTableDAO businessTableManager = new BusinessTableDAO();
+        BusinessDAO businessTableManager = new BusinessDAO();
         if (userTableManager.checkUserExistence(email, password)) {
             clearPersonalFields();
             UserDashboard userDashboard = new UserDashboard(userTableManager.getAccountId(email));

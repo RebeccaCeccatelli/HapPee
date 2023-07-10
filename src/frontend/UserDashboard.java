@@ -1,13 +1,16 @@
 package frontend;
 
-import backend.Map;
+import backend.Business;
 import backend.User;
+import database.BusinessDAO;
 import frontend.account_dashboards.user_dashboards.AddReviewDashboard;
 import frontend.account_dashboards.user_dashboards.CheckGivenReviewsDashboard;
 import frontend.account_dashboards.user_dashboards.UserAccountDetailsDashboard;
+import frontend.map.Map;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class UserDashboard extends Dashboard {
@@ -23,7 +26,8 @@ public class UserDashboard extends Dashboard {
         setGridPane();
 
         Label greetingLabel = new Label("Hi, what do you want to do today?");
-        Button findRestroomBtn = createButton("Find a restroom near me", e -> findARestroom());
+        Button findRestroomBtn = createButton("Find restrooms near me on map", e -> findARestroom());
+        Button chooseRestroosBtn = createButton("Choose restroom and get access code", e -> chooseRestroom());
         Button topUpBtn = createButton("Top up credit", e -> topUp());
         Button checkSubscriptionBtn = createButton("Check or upgrade subscription", e -> checkSubscription());
         Button addReviewBtn = createButton("Add a business review", e -> addReview());
@@ -33,6 +37,7 @@ public class UserDashboard extends Dashboard {
 
         addToGridPane(greetingLabel, 0, 0);
         addToGridPane(findRestroomBtn, 0, 1);
+        addToGridPane(chooseRestroosBtn, 1, 1);
         addToGridPane(topUpBtn, 0, 2);
         addToGridPane(checkSubscriptionBtn, 0, 3);
         addToGridPane(addReviewBtn, 0, 4);
@@ -41,6 +46,71 @@ public class UserDashboard extends Dashboard {
         addToGridPane(logoutBtn, 0, 7);
 
         showCurrentInterface("User Dashboard");
+    }
+
+    private void chooseRestroom() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Choose restroom");
+
+        dialog.setContentText("Enter the name of the business where your chosen restroom is located:");
+
+        dialog.getDialogPane().setGraphic(null);
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(this::getAccessCode);
+    }
+
+    private void getAccessCode(String businessName) {
+        int businessId = new BusinessDAO().checkBusinessName(businessName);
+        if(businessId == -1) {
+            showAlert("Business not found", "Business not found. Please try again.");
+        }
+        else {
+            Business business = new BusinessDAO().getBusinessOBject(businessId);
+            if (Objects.equals(user.getSubscription(), "premium")) {
+                showConfirmationDialog("You are a premium user, every restroom is free for you!", business.getAccessCode());
+            }
+            else {
+                float accessPrice = business.getDetails().getAccessPrice();
+                if (requestPaymentConfirmation(accessPrice)) {
+                    if (user.pay(accessPrice)) {
+                        showConfirmationDialog("Payment successful! You just paid " + accessPrice +
+                                        "$ (remaining balance: " + user.getCreditBalance() + "$).",
+                                business.getAccessCode());
+                    } else {
+                        showAlert("Insufficient Credit",
+                                "Your current credit is " + user.getCreditBalance() + "$. Insufficient, please top up.");
+                    }
+                }
+            }
+        }
+    }
+
+    public void showConfirmationDialog(String message, int accessCode) {
+        String title = "Your access code";
+        String accessInfo =  "\nUse this code to access the restroom: " + accessCode + ".\nHappee!";
+        showConfirmationDialog(title, message + accessInfo);
+
+    }
+
+    private boolean requestPaymentConfirmation(float amount) {
+        final boolean[] permission = {false};
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Payment confirmation.");
+        alert.setHeaderText("You are currently on a " + user.getSubscription() + " subscription.");
+        alert.setContentText("Your credit is currently " + user.getCreditBalance() + "$" +
+                " and the access price to this restroom is " + amount +
+                "$.\nDo you want to proceed? If so, click on the 'Pay' button.");
+        ButtonType payButton = new ButtonType("Pay");
+
+        alert.getButtonTypes().setAll(payButton);
+
+        alert.getDialogPane().setGraphic(null);
+        alert.showAndWait().ifPresent(response -> {
+            if (response == payButton) {
+                permission[0] = true;
+            }
+        });
+        return permission[0];
     }
 
     private void checkSubscription() {
@@ -75,7 +145,7 @@ public class UserDashboard extends Dashboard {
         dialog.setHeaderText("Enter the amount you want to top up: ");
 
         float currentBalance = user.getCreditBalance();
-        dialog.setContentText("Current balance: " + currentBalance + ". ");
+        dialog.setContentText("Current balance: " + currentBalance + "$. ");
 
         dialog.getDialogPane().setGraphic(null);
         Optional<String> result = dialog.showAndWait();
@@ -86,8 +156,7 @@ public class UserDashboard extends Dashboard {
     }
 
     private void findARestroom() {
-        Map map = new Map();
-        map.display();
+        Map.display();
     }
 
     private void addReview() {

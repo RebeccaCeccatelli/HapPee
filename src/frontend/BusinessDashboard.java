@@ -22,6 +22,7 @@ public class BusinessDashboard extends Dashboard {
         Button setBusinessTypeBtn = createButton("Set business type", e -> setBusinessType());
         Button setAccessPriceBtn = createButton("Set single access price", e -> setAccessPrice());
         Button setOpeningClosingTimesBtn = createButton("Set business opening and closing times", e -> setOpeningClosingTimes());
+        Button setRestroomAccessCodeBtn = createButton("Set access code for restroom", e -> setAccessCode());
         Button checkReviewsBtn = createButton("Check customer reviews", e -> checkCustomerReviews());
         Button modifyAccountDetailsBtn = createButton("Modify account details", e -> modifyAccountDetails());
         Button logoutBtn = createButton("Log out", e -> goBack());
@@ -29,12 +30,18 @@ public class BusinessDashboard extends Dashboard {
         addToGridPane(greetingLabel, 0, 0);
         addToGridPane(setBusinessTypeBtn, 0, 1);
         addToGridPane(setAccessPriceBtn, 0, 2);
-        addToGridPane(setOpeningClosingTimesBtn, 0, 3);
-        addToGridPane(checkReviewsBtn, 0, 4);
-        addToGridPane(modifyAccountDetailsBtn, 0, 5);
-        addToGridPane(logoutBtn, 0, 6);
+        addToGridPane(setRestroomAccessCodeBtn, 0, 3);
+        addToGridPane(setOpeningClosingTimesBtn, 0, 4);
+        addToGridPane(checkReviewsBtn, 0, 5);
+        addToGridPane(modifyAccountDetailsBtn, 0, 6);
+        addToGridPane(logoutBtn, 0, 7);
 
         showCurrentInterface("Business Dashboard");
+    }
+
+    private void setAccessCode() {
+        SetAccessCodeDashboard setAccessCodeDashboard = new SetAccessCodeDashboard(business);
+        showNextInterface(setAccessCodeDashboard);
     }
 
     private void checkCustomerReviews() {

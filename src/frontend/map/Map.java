@@ -1,10 +1,13 @@
-package backend;
+package frontend.map;
 
+import backend.Address;
+import backend.Business;
+import backend.BusinessDetails;
+import backend.Coordinates;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import database.AddressDAO;
-import database.BusinessDetailsDAO;
-import database.BusinessTableDAO;
+import database.BusinessDAO;
 import javafx.concurrent.Worker;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
@@ -16,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 
 import com.google.maps.*;
 import com.google.maps.model.GeocodingResult;
@@ -23,35 +27,19 @@ import com.google.maps.model.LatLng;
 
 public class Map {
 
-    public void display() {
+    public static void display() {
         WebView webView = new WebView();
         WebEngine webEngine = webView.getEngine();
 
         webEngine.setJavaScriptEnabled(true);
 
-        String fileUrl = "file:///C:/Users/Rebecca/IdeaProjects/HapPee2/src/backend/leafletMap.html";
+        String fileUrl = "file:///C:/Users/Rebecca/IdeaProjects/HapPee/src/frontend/map/LeafletMap.html";
         webEngine.load(fileUrl);
 
         webEngine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == Worker.State.SUCCEEDED) {
-                Coordinates userCoordinates = getUserCoordinates();
-                if (userCoordinates != null) {
-                    webEngine.executeScript("setCoordinates(" + userCoordinates.getLatitude() + ", " + userCoordinates.getLongitude() + ");");
-                    webEngine.executeScript("setMarker(" + userCoordinates.getLatitude() + ", " + userCoordinates.getLongitude() + ", 'You are here!');");
-                }
-
-                java.util.Map<Integer,Address> businessAddresses = new AddressDAO().getAllAddresses();
-                //java.util.Map<Integer, Address> businessAddresses = new HashMap<Integer, Address>();
-                //businessAddresses.put(34, new Address("via del Campaccio", "128", "59100", "Prato", "Italia"));
-                //businessAddresses.put(37, new Address("Via Libero Grassi", "76", "59100", "Prato", "Italia"));
-                for (java.util.Map.Entry<Integer, Address> address : businessAddresses.entrySet()) {
-                    LatLng businessCoordinates = getCoordinates(address.getValue());
-                    int businessId = new BusinessTableDAO().getBusinessIdFromAddressId(address.getKey());
-                    if (businessCoordinates != null) {
-                        String script = "setMarker(" + businessCoordinates.lat + ", " + businessCoordinates.lng + ", '" + getBusinessPopupString(businessId) + "');";
-                        webEngine.executeScript(script);
-                    }
-                }
+                placeUser(webEngine);
+                placeBusinesses(webEngine);
             }
         });
 
@@ -61,7 +49,43 @@ public class Map {
         primaryStage.show();
     }
 
-    private Coordinates getUserCoordinates() {
+    private static void placeUser(WebEngine webEngine) {
+        Coordinates userCoordinates = getUserCoordinates();
+        if (userCoordinates != null) {
+            webEngine.executeScript("setCoordinates("
+                    + userCoordinates.getLatitude() + ", "
+                    + userCoordinates.getLongitude() + ");");
+            webEngine.executeScript("setUserMarker("
+                    + userCoordinates.getLatitude() + ", "
+                    + userCoordinates.getLongitude() + ", "
+                    + "'You are here!');");
+        }
+
+    }
+
+    private static void placeBusinesses(WebEngine webEngine) {
+        HashMap<Integer, Address> businessAddresses = new AddressDAO().getAllAddresses();
+        for (HashMap.Entry<Integer,Address> address : businessAddresses.entrySet()) {
+
+            LatLng businessCoordinates = getCoordinates(address.getValue());
+            Business business = new BusinessDAO().getBusinessFromAddressId(address.getKey());
+
+            if (businessCoordinates != null) {
+                webEngine.executeScript("setBusinessMarker("
+                        + businessCoordinates.lat + ", "
+                        + businessCoordinates.lng + ");");
+                BusinessDetails businessDetails =  business.getDetails();
+                webEngine.executeScript("setBusinessPopup('"
+                        + business.getName() + "', '"
+                        + businessDetails.getBusinessType() + "', '"
+                        + businessDetails.getAccessPrice() + "', '"
+                        + businessDetails.getOpeningTime() + "', '"
+                        + businessDetails.getClosingTime() + "');");
+            }
+        }
+    }
+
+    private static Coordinates getUserCoordinates() {
         try {
             URL url = new URL("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDIPXUh0f0lNnmItHkBv0pzl4Mr7Hu32MQ");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -100,7 +124,7 @@ public class Map {
     }
 
 
-    private LatLng getCoordinates(Address address) {
+    private static LatLng getCoordinates(Address address) {
         GeoApiContext context = new GeoApiContext.Builder()
                 .apiKey("AIzaSyDIPXUh0f0lNnmItHkBv0pzl4Mr7Hu32MQ")
                 .build();
@@ -116,17 +140,6 @@ public class Map {
         return null;
     }
 
-    private String getBusinessPopupString(int businessId) {
-        BusinessTableDAO businessTableManager = new BusinessTableDAO();
-        String businessName = businessTableManager.getStringFromDB(businessId, "name");
-        int businessDetailsId = new BusinessDetailsDAO().getIdFromBusinessId(businessId);
-        String businessType = new BusinessDetailsDAO().getStringFromDB(businessDetailsId, "business_type");
-        float accessPrice = new BusinessDetailsDAO().getFLoatFromDB(businessDetailsId, "single_access_price");
-        String openingTime = new BusinessDetailsDAO().getTimeFromDB(businessDetailsId, "opening_time").toString();
-        String closingTime = new BusinessDetailsDAO().getTimeFromDB(businessDetailsId, "closing_time").toString();
 
-        String string = "Business name: " + businessName + ", category:  " + businessType + ". Pay per use access price: " + accessPrice + ". Opening and closing times: " + openingTime + ", " + closingTime+ ".";
-        return string;
-    }
 }
 

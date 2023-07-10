@@ -1,9 +1,13 @@
 package database;
 
 import java.sql.*;
-import backend.Address;
+import java.util.ArrayList;
 
-public class BusinessTableDAO extends DAO {
+import backend.Address;
+import backend.Business;
+import backend.Review;
+
+public class BusinessDAO extends DAO {
 
     public boolean addNewRow(Object... params) {
         AddressDAO addressTableManager = new AddressDAO();
@@ -69,8 +73,12 @@ public class BusinessTableDAO extends DAO {
         return id;
     }
 
-    public int getBusinessIdFromAddressId(int addressId) {
-        int businessId = 0;
+    public Business getBusinessOBject(int businessId) {
+        return new Business(businessId);
+    }
+
+    public Business getBusinessFromAddressId (int addressId) {
+        Business business = null;
         try {
             Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
@@ -80,7 +88,8 @@ public class BusinessTableDAO extends DAO {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    businessId = resultSet.getInt("id");
+                    int businessId = resultSet.getInt("id");
+                    business = new Business(businessId);
                 }
             }
             statement.close();
@@ -88,7 +97,7 @@ public class BusinessTableDAO extends DAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return businessId;
+        return business;
     }
 
     public Address getAddressFromDatabase(int businessId) {

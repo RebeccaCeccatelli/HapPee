@@ -2,7 +2,7 @@ package frontend;
 
 import backend.Address;
 import database.BusinessDetailsDAO;
-import database.BusinessTableDAO;
+import database.BusinessDAO;
 import database.DAO;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -15,7 +15,7 @@ public class BusinessSignUpInterface extends SignUpInterface {
     private TextField countryField;
 
     protected DAO getTableManager() {
-        return new BusinessTableDAO();
+        return new BusinessDAO();
     }
 
     @Override

@@ -29,6 +29,16 @@ public class User  extends Account{
         }
     }
 
+    public boolean pay(float amount) {
+        if (amount > creditBalance) {
+            return false;
+        }
+        else {
+            this.creditBalance -= amount;
+            return true;
+        }
+    }
+
     public void topUpCredit(float amount) {
         setCredit(amount);
         saveCreditBalance();

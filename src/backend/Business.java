@@ -6,7 +6,6 @@ import java.sql.Time;
 
 public class Business extends Account {
     private BusinessDetails details;
-    private Coordinates position;
 
     public Business(int id) {
         this.information = new BusinessInformation(id);
@@ -21,6 +20,8 @@ public class Business extends Account {
     public void saveAccessPrice(float accessPrice) {
         details.saveAccessPrice(accessPrice);
     }
+
+    public void saveAccessCode(int accessCode) { details.saveAccessCode(accessCode); }
 
     public void saveBusinessType(String businessType) {
         details.saveBusinessType(businessType);
@@ -44,5 +45,9 @@ public class Business extends Account {
 
     public Object getSpecificField() {
         return information.getSpecificField();
+    }
+
+    public int getAccessCode() {
+        return details.getAccessCode();
     }
 }
