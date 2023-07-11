@@ -48,6 +48,10 @@ public class UserDashboard extends Dashboard {
         showCurrentInterface("User Dashboard");
     }
 
+    private void findARestroom() {
+        Map.display();
+    }
+
     private void chooseRestroom() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Choose restroom");
@@ -60,14 +64,15 @@ public class UserDashboard extends Dashboard {
     }
 
     private void getAccessCode(String businessName) {
-        int businessId = new BusinessDAO().checkBusinessName(businessName);
+        int businessId = new BusinessDAO().getIdByBusinessName(businessName);
         if(businessId == -1) {
             showAlert("Business not found", "Business not found. Please try again.");
         }
         else {
-            Business business = new BusinessDAO().getBusinessOBject(businessId);
+            Business business = new BusinessDAO().getBusinessByBusinessId(businessId);
             if (Objects.equals(user.getSubscription(), "premium")) {
-                showConfirmationDialog("You are a premium user, every restroom is free for you!", business.getAccessCode());
+                showConfirmationDialog("You are a premium user, every restroom is free for you!",
+                        business.getAccessCode());
             }
             else {
                 float accessPrice = business.getDetails().getAccessPrice();
@@ -78,18 +83,12 @@ public class UserDashboard extends Dashboard {
                                 business.getAccessCode());
                     } else {
                         showAlert("Insufficient Credit",
-                                "Your current credit is " + user.getCreditBalance() + "$. Insufficient, please top up.");
+                                "Your current credit is " + user.getCreditBalance() + "$." +
+                                        " Insufficient, please top up.");
                     }
                 }
             }
         }
-    }
-
-    public void showConfirmationDialog(String message, int accessCode) {
-        String title = "Your access code";
-        String accessInfo =  "\nUse this code to access the restroom: " + accessCode + ".\nHappee!";
-        showConfirmationDialog(title, message + accessInfo);
-
     }
 
     private boolean requestPaymentConfirmation(float amount) {
@@ -113,11 +112,35 @@ public class UserDashboard extends Dashboard {
         return permission[0];
     }
 
+    private void showConfirmationDialog(String message, int accessCode) {
+        String title = "Your access code";
+        String accessInfo =  "\nUse this code to access the restroom: " + accessCode + ".\nHappee!";
+        showConfirmationDialog(title, message + accessInfo);
+
+    }
+
+    private void topUp() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Top up credit");
+        dialog.setHeaderText("Enter the amount you want to top up: ");
+
+        float currentBalance = user.getCreditBalance();
+        dialog.setContentText("Current balance: " + currentBalance + "$. ");
+
+        dialog.getDialogPane().setGraphic(null);
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(amount -> {
+            user.topUpCredit(Float.parseFloat(amount));
+            showConfirmationDialog("Top up credit", "Credit successfully topped up!");
+        });
+    }
+
     private void checkSubscription() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Check Subscription");
         alert.setHeaderText("You are currently on a " + user.getSubscription() + " subscription.");
-        alert.setContentText("Do you wish to upgrade to premium, for only 100$? If so, click on the 'Upgrade' button.");
+        alert.setContentText("Do you wish to upgrade to premium, for only 100$?" +
+                " If so, click on the 'Upgrade' button.");
         ButtonType upgradeButton = new ButtonType("Upgrade");
 
         alert.getButtonTypes().setAll(upgradeButton);
@@ -139,31 +162,10 @@ public class UserDashboard extends Dashboard {
 
     }
 
-    private void topUp() {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Top up credit");
-        dialog.setHeaderText("Enter the amount you want to top up: ");
-
-        float currentBalance = user.getCreditBalance();
-        dialog.setContentText("Current balance: " + currentBalance + "$. ");
-
-        dialog.getDialogPane().setGraphic(null);
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(amount -> {
-            user.topUpCredit(Float.parseFloat(amount));
-            showConfirmationDialog("Top up credit", "Credit successfully topped up!");
-        });
-    }
-
-    private void findARestroom() {
-        Map.display();
-    }
-
     private void addReview() {
         AddReviewDashboard addReviewDashboard = new AddReviewDashboard(user);
         showNextInterface(addReviewDashboard);
     }
-
 
     private void checkGivenReviews() {
         CheckGivenReviewsDashboard checkGivenReviewsDashboard = new CheckGivenReviewsDashboard(user);

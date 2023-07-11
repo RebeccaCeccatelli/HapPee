@@ -6,6 +6,20 @@ public abstract class Account {
     protected AccountInformation information;
     protected ArrayList<Review> reviews;
 
+    public void saveName(String newName) {
+        information.saveName(newName);
+    }
+
+    public void saveEmail(String newEmail) {
+        information.saveEmail(newEmail);
+    }
+
+    public void savePassword(String newPassword) {
+        information.savePassword(newPassword);
+    }
+
+    public abstract void saveSpecificField(Object... params);
+
     public int getId() {
         return information.getId();
     }
@@ -21,20 +35,6 @@ public abstract class Account {
     public String getPassword() {
         return information.getPassword();
     }
-
-    public void saveName(String newName) {
-        information.saveName(newName);
-    }
-
-    public void saveEmail(String newEmail) {
-        information.saveEmail(newEmail);
-    }
-
-    public void savePassword(String newPassword) {
-        information.savePassword(newPassword);
-    }
-
-    public abstract void saveSpecificField(Object... params);
 
     public abstract Object getSpecificField();
 

@@ -30,30 +30,32 @@ public class SignInInterface extends Interface {
         showCurrentInterface("Login");
     }
 
-    private void clearPersonalFields() {
-        emailTextField.clear();
-        passwordField.clear();
-    }
-
     private void login() {
         String email = emailTextField.getText();
         String password = passwordField.getText();
 
         UserDAO userDAO = new UserDAO();
-        //TODO qui c'è codice che può essere messo tutto insieme, sistemare i table managers
         BusinessDAO businessDAO = new BusinessDAO();
-        if (userDAO.checkUserExistence(email, password)) {
-            clearPersonalFields();
-            UserDashboard userDashboard = new UserDashboard(userDAO.getAccountId(email));
-            showNextInterface(userDashboard);
+        if (userDAO.checkIfUserRegistered(email, password)) {
+            UserDashboard userDashboard = new UserDashboard(userDAO.getAccountIdByEmail(email));
+            showDashboard(userDashboard);
         }
-        else if (businessDAO.checkBusinessExistence(email, password)) {
-            clearPersonalFields();
-            BusinessDashboard businessDashboard = new BusinessDashboard(businessDAO.getAccountId(email));
-            showNextInterface(businessDashboard);
+        else if (businessDAO.checkIfBusinessRegistered(email, password)) {
+            BusinessDashboard businessDashboard = new BusinessDashboard(businessDAO.getAccountIdByEmail(email));
+            showDashboard(businessDashboard);
         }
         else {
             showAlert("Invalid credentials", "Incorrect username or password. ");
         }
+    }
+
+    private void showDashboard(Dashboard dashboard) {
+        clearPersonalFields();
+        showNextInterface(dashboard);
+    }
+
+    private void clearPersonalFields() {
+        emailTextField.clear();
+        passwordField.clear();
     }
 }

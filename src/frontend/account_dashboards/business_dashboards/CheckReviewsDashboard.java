@@ -8,7 +8,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 
 public class CheckReviewsDashboard extends Interface {
@@ -16,21 +15,6 @@ public class CheckReviewsDashboard extends Interface {
 
     public CheckReviewsDashboard(Business business) {
         this.business = business;
-    }
-
-    private void showReview(Review review) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Show review");
-        String userName = new UserDAO().getStringFromDB(review.getUserId(), "name");
-
-        alert.setHeaderText("Review from: " + userName + ". ");
-
-        alert.setContentText("Date: " + review.getDate() + ", Time: " + review.getTime() +
-                "\nText: " + review.getText() +
-                "\nRating: " + review.getRating());
-
-        alert.getDialogPane().setGraphic(null);
-        alert.showAndWait();
     }
 
     @Override
@@ -66,5 +50,20 @@ public class CheckReviewsDashboard extends Interface {
         }
 
         showCurrentInterface("Check reviews");
+    }
+
+    private void showReview(Review review) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Show review");
+        String userName = new UserDAO().getStringFromDB(review.getUserId(), "name");
+
+        alert.setHeaderText("Review from: " + userName + ". ");
+
+        alert.setContentText("Date: " + review.getDate() + ", Time: " + review.getTime() +
+                "\nText: " + review.getText() +
+                "\nRating: " + review.getRating());
+
+        alert.getDialogPane().setGraphic(null);
+        alert.showAndWait();
     }
 }

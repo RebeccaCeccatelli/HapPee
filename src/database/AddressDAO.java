@@ -3,19 +3,13 @@ package database;
 import backend.Address;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AddressDAO extends DAO {
     private int addressId;
 
     @Override
-    public String getTableName() {
-        return "Address";
-    }
-
-    @Override
-    public boolean addNewRow(Object... params) {
+    public boolean addRow(Object... params) {
         Address address = (Address) params[0];
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sqlCommand = "INSERT INTO \"Address\" (street, civic_number, postcode, city, country) VALUES (?, ?, ?, ?, ?)";
@@ -40,10 +34,15 @@ public class AddressDAO extends DAO {
         return true;
     }
 
-    public int getAddressId(){
-        return addressId;
+
+    @Override
+    String getTableName() {
+        return "Address";
     }
 
+    int getAddressId(){
+        return addressId;
+    }
 
     public HashMap<Integer, Address> getAllAddresses() {
         HashMap<Integer, Address> addressMap = new HashMap<>();
@@ -77,28 +76,52 @@ public class AddressDAO extends DAO {
         return addressMap;
     }
 
-    public ArrayList<Integer> getAddressesId() {
-        ArrayList<Integer> addressesId = new ArrayList<>();
+    public Address getAddressByBusinessId(int businessId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Address address = null;
 
         try {
-            Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
-            String query = "SELECT id FROM \"Address\"";
-            Statement statement = connection.createStatement();
+            String query = "SELECT b.id, a.street, a.civic_number, a.postcode, a.city, a.country " +
+                    "FROM \"Business\" b " +
+                    "JOIN \"Address\" a ON b.address_id = a.id " +
+                    "WHERE b.id = ?";
 
-            ResultSet resultSet = statement.executeQuery(query);
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, businessId);
 
-            while (resultSet.next()) {
-                int addressId = resultSet.getInt("id");
-                addressesId.add(addressId);
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String street = resultSet.getString("street");
+                String civicNumber = resultSet.getString("civic_number");
+                String postCode = resultSet.getString("postcode");
+                String city = resultSet.getString("city");
+                String country = resultSet.getString("country");
+
+                address = new Address(street, civicNumber, postCode, city, country);
             }
-
-            resultSet.close();
-            statement.close();
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        return addressesId;
+
+        return address;
     }
 }

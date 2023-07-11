@@ -1,17 +1,14 @@
 package database;
 
 import java.sql.*;
-import java.util.ArrayList;
 
-import backend.Address;
 import backend.Business;
-import backend.Review;
 
 public class BusinessDAO extends DAO {
 
-    public boolean addNewRow(Object... params) {
+    public boolean addRow(Object... params) {
         AddressDAO addressDAO = new AddressDAO();
-        addressDAO.addNewRow(params[1]);
+        addressDAO.addRow(params[1]);
         int addressId = addressDAO.getAddressId();
 
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
@@ -31,7 +28,11 @@ public class BusinessDAO extends DAO {
         return true;
     }
 
-    public boolean checkBusinessExistence(String email, String password) {
+    String getTableName() {
+        return "Business";
+    }
+
+    public boolean checkIfBusinessRegistered(String email, String password) {
         boolean result = false;
         String query = "SELECT * FROM \"Business\" WHERE email = ? AND password = ?";
 
@@ -53,7 +54,7 @@ public class BusinessDAO extends DAO {
         return result;
     }
 
-    public int checkBusinessName(String name) {
+    public int getIdByBusinessName(String name) {
         int id = -1;
         String query = "SELECT * FROM \"Business\" WHERE name = ?";
 
@@ -73,11 +74,11 @@ public class BusinessDAO extends DAO {
         return id;
     }
 
-    public Business getBusinessOBject(int businessId) {
+    public Business getBusinessByBusinessId(int businessId) {
         return new Business(businessId);
     }
 
-    public Business getBusinessFromAddressId (int addressId) {
+    public Business getBusinessByAddressId(int addressId) {
         Business business = null;
         try {
             Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
@@ -98,58 +99,5 @@ public class BusinessDAO extends DAO {
             e.printStackTrace();
         }
         return business;
-    }
-
-    public Address getAddressFromDatabase(int businessId) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        Address address = null;
-
-        try {
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-
-            String query = "SELECT b.id, a.street, a.civic_number, a.postcode, a.city, a.country " +
-                    "FROM \"Business\" b " +
-                    "JOIN \"Address\" a ON b.address_id = a.id " +
-                    "WHERE b.id = ?";
-
-            statement = connection.prepareStatement(query);
-            statement.setInt(1, businessId);
-
-            resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                String street = resultSet.getString("street");
-                String civicNumber = resultSet.getString("civic_number");
-                String postCode = resultSet.getString("postcode");
-                String city = resultSet.getString("city");
-                String country = resultSet.getString("country");
-
-                address = new Address(street, civicNumber, postCode, city, country);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return address;
-    }
-
-    public String getTableName() {
-        return "Business";
     }
 }

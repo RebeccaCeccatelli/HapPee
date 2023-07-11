@@ -17,13 +17,6 @@ public class SetAccessPriceDashboard extends Interface {
         this.business = business;
     }
 
-    private void saveAccessPrice() {
-        float newAccessPrice = Float.parseFloat(accessPriceTextField.getText());
-        business.saveAccessPrice(newAccessPrice);
-        showConfirmationDialog("Set Access Price", "New Access Price successfully saved!");
-        goBack();
-    }
-
     @Override
     public void start(Stage primaryStage) {
         setPrimaryStage(primaryStage);
@@ -44,4 +37,10 @@ public class SetAccessPriceDashboard extends Interface {
         showCurrentInterface("Set Access Price");
     }
 
+    private void saveAccessPrice() {
+        float newAccessPrice = Float.parseFloat(accessPriceTextField.getText());
+        business.saveAccessPrice(newAccessPrice);
+        showConfirmationDialog("Set Access Price", "New Access Price successfully saved!");
+        goBack();
+    }
 }

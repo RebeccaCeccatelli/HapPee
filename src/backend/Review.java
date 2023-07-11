@@ -30,8 +30,8 @@ public class Review {
         this.time = time;
     }
 
-    public void save() {
-        new ReviewDAO().addNewRow(userId, businessId, text, rating, date, time);
+    void save() {
+        new ReviewDAO().addRow(userId, businessId, text, rating, date, time);
     }
 
     public int getBusinessId() {
@@ -42,14 +42,6 @@ public class Review {
         return userId;
     }
 
-    public String getDate() {
-        return date.toString();
-    }
-
-    public String getTime() {
-        return time.toString();
-    }
-
     public String getText() {
         return text;
     }
@@ -58,4 +50,11 @@ public class Review {
         return rating;
     }
 
+    public String getDate() {
+        return date.toString();
+    }
+
+    public String getTime() {
+        return time.toString();
+    }
 }

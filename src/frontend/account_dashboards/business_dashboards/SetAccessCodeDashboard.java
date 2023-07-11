@@ -15,13 +15,6 @@ public class SetAccessCodeDashboard extends Interface {
         this.business = business;
     }
 
-    private void saveAccessCode() {
-        int newAccessCode = Integer.parseInt(accessCodeTextField.getText());
-        business.saveAccessCode(newAccessCode);
-        showConfirmationDialog("Set Access Code", "New Access Code successfully saved!");
-        goBack();
-    }
-
     @Override
     public void start(Stage primaryStage) {
         setPrimaryStage(primaryStage);
@@ -40,5 +33,12 @@ public class SetAccessCodeDashboard extends Interface {
         addToGridPane(saveAccessCodeBtn, 1, 1);
 
         showCurrentInterface("Set Access Code");
+    }
+
+    private void saveAccessCode() {
+        int newAccessCode = Integer.parseInt(accessCodeTextField.getText());
+        business.saveAccessCode(newAccessCode);
+        showConfirmationDialog("Set Access Code", "New Access Code successfully saved!");
+        goBack();
     }
 }

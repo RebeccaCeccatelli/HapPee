@@ -13,9 +13,8 @@ public class BusinessDetails {
     private int accessCode;
     private BusinessDetailsDAO businessDetailsDAO = new BusinessDetailsDAO();
 
-
     public BusinessDetails(int businessId) {
-        this.id = businessDetailsDAO.getIdFromBusinessId(businessId);
+        this.id = businessDetailsDAO.getIdByBusinessId(businessId);
         this.businessType = businessDetailsDAO.getStringFromDB(id, "business_type");
         this.singleAccessPrice = businessDetailsDAO.getFLoatFromDB(id, "single_access_price");
         this.openingTime = businessDetailsDAO.getTimeFromDB(id, "opening_time");
@@ -23,46 +22,36 @@ public class BusinessDetails {
         this.accessCode = businessDetailsDAO.getIntFromDB(id, "access_code");
     }
 
-    public float getAccessPrice() {
-        return singleAccessPrice;
+    void saveBusinessType(String businessType) {
+        setBusinessType(businessType);
+        businessDetailsDAO.update(id, "business_type", businessType);
     }
 
-    public int getAccessCode() { return accessCode; }
-
-    public String getBusinessType() {
-        return businessType;
-    }
-
-    public void saveAccessPrice(float accessPrice) {
+    void saveAccessPrice(float accessPrice) {
         setAccessPrice(accessPrice);
         businessDetailsDAO.update(id, "single_access_price", accessPrice);
     }
 
-    public void saveAccessCode(int accessCode) {
+    void saveAccessCode(int accessCode) {
         setAccessCode(accessCode);
         businessDetailsDAO.update(id, "access_code", accessCode);
     }
 
-    private void setAccessCode(int accessCode) {
-        this.accessCode = accessCode;
-    }
-
-    public void saveBusinessType(String businessType) {
-        setBusinessType(businessType);
-        businessDetailsDAO.update(id, "business_type", businessType);
+    void saveTime(Time time, String type) {
+        setTime(time, type);
+        businessDetailsDAO.update(id, type, time);
     }
 
     private void setBusinessType(String businessType) {
         this.businessType = businessType;
     }
 
-    private void setAccessPrice(float accessPrice) {
-        this.singleAccessPrice = accessPrice;
+    private void setAccessCode(int accessCode) {
+        this.accessCode = accessCode;
     }
 
-    public void saveTime(Time time, String type) {
-        setTime(time, type);
-        businessDetailsDAO.update(id, type, time);
+    private void setAccessPrice(float accessPrice) {
+        this.singleAccessPrice = accessPrice;
     }
 
     private void setTime(Time time, String type) {
@@ -74,6 +63,16 @@ public class BusinessDetails {
         }
     }
 
+    public String getBusinessType() {
+        return businessType;
+    }
+
+    public float getAccessPrice() {
+        return singleAccessPrice;
+    }
+
+    public int getAccessCode() { return accessCode; }
+
     public String getOpeningTime() {
         return openingTime.toString();
     }
@@ -81,5 +80,4 @@ public class BusinessDetails {
     public String getClosingTime() {
         return closingTime.toString();
     }
-
 }

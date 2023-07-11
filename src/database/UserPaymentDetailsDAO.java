@@ -3,12 +3,29 @@ package database;
 import java.sql.*;
 
 public class UserPaymentDetailsDAO extends DAO {
+
     @Override
-    public String getTableName() {
+    public boolean addRow(Object... params) {
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            String sqlCommand = "INSERT INTO \"UserPaymentDetails\" (user_id) VALUES (?)";
+            PreparedStatement statement = connection.prepareStatement(sqlCommand);
+
+            statement.setInt(1, (int) params[0]);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    String getTableName() {
         return "UserPaymentDetails";
     }
 
-    public int getIdFromUserId(int userId){
+    public int getIdByUserId(int userId){
         int desiredField = -1;
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sql = "SELECT id FROM \"" + getTableName() + "\" WHERE user_id = ?";
@@ -25,21 +42,5 @@ public class UserPaymentDetailsDAO extends DAO {
             e.printStackTrace();
         }
         return desiredField;
-    }
-
-    @Override
-    public boolean addNewRow(Object... params) {
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sqlCommand = "INSERT INTO \"UserPaymentDetails\" (user_id) VALUES (?)";
-            PreparedStatement statement = connection.prepareStatement(sqlCommand);
-
-            statement.setInt(1, (int) params[0]);
-
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
     }
 }

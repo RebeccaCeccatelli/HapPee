@@ -17,21 +17,6 @@ public class CheckGivenReviewsDashboard extends Interface {
         this.user = user;
     }
 
-    private void showReview(Review review) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Show review");
-        String businessName = new BusinessDAO().getStringFromDB(review.getBusinessId(), "name");
-
-        alert.setHeaderText("Review on: " + businessName + ". ");
-
-        alert.setContentText("Date: " + review.getDate() + ", Time: " + review.getTime() +
-                "\nText: " + review.getText() +
-                "\nRating: " + review.getRating());
-
-        alert.getDialogPane().setGraphic(null);
-        alert.showAndWait();
-    }
-
     @Override
     public void start(Stage primaryStage) {
         setPrimaryStage(primaryStage);
@@ -62,5 +47,20 @@ public class CheckGivenReviewsDashboard extends Interface {
         }
 
         showCurrentInterface("Check given reviews");
+    }
+
+    private void showReview(Review review) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Show review");
+        String businessName = new BusinessDAO().getStringFromDB(review.getBusinessId(), "name");
+
+        alert.setHeaderText("Review on: " + businessName + ". ");
+
+        alert.setContentText("Date: " + review.getDate() + ", Time: " + review.getTime() +
+                "\nText: " + review.getText() +
+                "\nRating: " + review.getRating());
+
+        alert.getDialogPane().setGraphic(null);
+        alert.showAndWait();
     }
 }

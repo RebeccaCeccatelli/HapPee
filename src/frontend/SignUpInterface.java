@@ -9,7 +9,7 @@ public abstract class SignUpInterface extends Interface {
     protected PasswordField passwordField;
     protected PasswordField confirmPasswordField;
 
-    protected void register() {
+    void register() {
         DAO DAO = getDAO();
         String name = nameField.getText();
         String email = emailField.getText();
@@ -26,22 +26,20 @@ public abstract class SignUpInterface extends Interface {
             passwordField.clear();
             confirmPasswordField.clear();
         } else {
-            if (DAO.addNewRow(name, getSpecificField(), email, password)){
-                optional(DAO, email);
+            if (DAO.addRow(name, getSpecificField(), email, password)){
+                addRowToDetails(DAO, email);
                 showConfirmationDialog("Registration Completed", "Registration successfully completed!");
-                Dashboard dashboard = getDashboard(DAO.getAccountId(email));
+                Dashboard dashboard = getDashboard(DAO.getAccountIdByEmail(email));
                 showNextInterface(dashboard);
             }
         }
     }
 
-    protected abstract DAO getDAO();
+    abstract DAO getDAO();
 
-    //FIXME this method probably to be changed
-    protected void optional(DAO DAO, String email){}
+    void addRowToDetails(DAO DAO, String email){}
 
-    protected abstract Object getSpecificField();
+    abstract Object getSpecificField();
 
-    protected abstract Dashboard getDashboard(int id);
-
+    abstract Dashboard getDashboard(int id);
 }

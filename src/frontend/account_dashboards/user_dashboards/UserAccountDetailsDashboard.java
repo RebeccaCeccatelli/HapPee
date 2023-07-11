@@ -51,5 +51,4 @@ public class UserAccountDetailsDashboard extends AccountDetailsDashboard {
             showConfirmationDialog("Save new surname", "New surname successfully saved!");
         });
     }
-
 }

@@ -17,13 +17,6 @@ public class SetBusinessTypeDashboard extends Interface {
         this.business = business;
     }
 
-    private void saveBusinessType() {
-        String newBusinessType = businessTypeTextField.getText();
-        business.saveBusinessType(newBusinessType);
-        showConfirmationDialog("Set business type", "New Business Type successfully saved!");
-        goBack();
-    }
-
     @Override
     public void start(Stage primaryStage) {
         setPrimaryStage(primaryStage);
@@ -43,5 +36,12 @@ public class SetBusinessTypeDashboard extends Interface {
         addToGridPane(saveBusinessTypeBtn, 1, 1);
 
         showCurrentInterface("Set Business Type");
+    }
+
+    private void saveBusinessType() {
+        String newBusinessType = businessTypeTextField.getText();
+        business.saveBusinessType(newBusinessType);
+        showConfirmationDialog("Set business type", "New Business Type successfully saved!");
+        goBack();
     }
 }

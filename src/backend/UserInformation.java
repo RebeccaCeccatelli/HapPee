@@ -10,7 +10,8 @@ public class UserInformation extends AccountInformation {
         this.surname = new UserDAO().getStringFromDB(id, "surname");
     }
 
-    public void saveSpecificField(Object... params) {
+    //The specific field is surname
+    void saveSpecificField(Object... params) {
         String newSurname = (String) params[0];
         setSurname(newSurname);
         DAO.update(id, "surname", newSurname);
@@ -20,7 +21,7 @@ public class UserInformation extends AccountInformation {
         this.surname = newSurname;
     }
 
-    public Object getSpecificField() {
+    Object getSpecificField() {
         return surname;
     }
 }

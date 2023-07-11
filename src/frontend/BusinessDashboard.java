@@ -39,6 +39,21 @@ public class BusinessDashboard extends Dashboard {
         showCurrentInterface("Business Dashboard");
     }
 
+    private void setBusinessType() {
+        SetBusinessTypeDashboard setBusinessTypeDashboard = new SetBusinessTypeDashboard(business);
+        showNextInterface(setBusinessTypeDashboard);
+    }
+
+    private void setAccessPrice() {
+        SetAccessPriceDashboard setAccessPriceDashboard = new SetAccessPriceDashboard(business);
+        showNextInterface(setAccessPriceDashboard);
+    }
+
+    private void setOpeningClosingTimes() {
+        SetTimesDashboard setTimesDashboard = new SetTimesDashboard(business);
+        showNextInterface(setTimesDashboard);
+    }
+
     private void setAccessCode() {
         SetAccessCodeDashboard setAccessCodeDashboard = new SetAccessCodeDashboard(business);
         showNextInterface(setAccessCodeDashboard);
@@ -52,21 +67,6 @@ public class BusinessDashboard extends Dashboard {
     private void modifyAccountDetails() {
         BusinessAccountDetailsDashboard businessAccountDetailsDashboard = new BusinessAccountDetailsDashboard(business);
         showNextInterface(businessAccountDetailsDashboard);
-    }
-
-    private void setOpeningClosingTimes() {
-        SetTimesDashboard setTimesDashboard = new SetTimesDashboard(business);
-        showNextInterface(setTimesDashboard);
-    }
-
-    private void setAccessPrice() {
-        SetAccessPriceDashboard setAccessPriceDashboard = new SetAccessPriceDashboard(business);
-        showNextInterface(setAccessPriceDashboard);
-    }
-
-    private void setBusinessType() {
-        SetBusinessTypeDashboard setBusinessTypeDashboard = new SetBusinessTypeDashboard(business);
-        showNextInterface(setBusinessTypeDashboard);
     }
 }
 

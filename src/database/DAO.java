@@ -7,9 +7,23 @@ public abstract class DAO {
     protected static final String DB_USER = "postgres";
     protected static final String DB_PASSWORD = "Pianoforte2000!";
 
-    public abstract String getTableName();
+    public abstract boolean addRow(Object... params);
 
-    public abstract boolean addNewRow(Object... params);
+    abstract String getTableName();
+
+    public void update(int id, String column, Object value) {
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            String sqlCommand = "UPDATE \"" + getTableName() + "\" SET " + column + " = ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sqlCommand);
+
+            statement.setObject(1, value);
+            statement.setInt(2, id);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public boolean emailAlreadyExists (String email){
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
@@ -29,7 +43,7 @@ public abstract class DAO {
         return false;
     }
 
-    public int getAccountId(String email) {
+    public int getAccountIdByEmail(String email) {
         int id = 0;
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sql = "SELECT id FROM \"" + getTableName() + "\" WHERE email = ?";
@@ -123,21 +137,5 @@ public abstract class DAO {
             e.printStackTrace();
         }
         return desiredField;
-    }
-
-    public boolean update(int id, String column, Object value) {
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sqlCommand = "UPDATE \"" + getTableName() + "\" SET " + column + " = ? WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(sqlCommand);
-
-            statement.setObject(1, value);
-            statement.setInt(2, id);
-
-            int rowsAffected = statement.executeUpdate();
-            return rowsAffected > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 }

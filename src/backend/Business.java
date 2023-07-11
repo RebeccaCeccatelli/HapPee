@@ -13,8 +13,8 @@ public class Business extends Account {
         this.reviews = new ReviewDAO().getReviewsByAccountId(id, "business_id");
     }
 
-    public BusinessDetails getDetails() {
-        return details;
+    public void saveBusinessType(String businessType) {
+        details.saveBusinessType(businessType);
     }
 
     public void saveAccessPrice(float accessPrice) {
@@ -23,16 +23,24 @@ public class Business extends Account {
 
     public void saveAccessCode(int accessCode) { details.saveAccessCode(accessCode); }
 
-    public void saveBusinessType(String businessType) {
-        details.saveBusinessType(businessType);
-    }
-
     public void saveTime(Time time, String type) {
         details.saveTime(time, type);
     }
 
     public void saveSpecificField(Object... params) {
         information.saveSpecificField(params);
+    }
+
+    public BusinessDetails getDetails() {
+        return details;
+    }
+
+    public int getAccessCode() {
+        return details.getAccessCode();
+    }
+
+    public Object getSpecificField() {
+        return information.getSpecificField();
     }
 
     public float getAverageRating() {
@@ -44,13 +52,5 @@ public class Business extends Account {
             return average / reviews.size();
         }
         return average;
-    }
-
-    public Object getSpecificField() {
-        return information.getSpecificField();
-    }
-
-    public int getAccessCode() {
-        return details.getAccessCode();
     }
 }

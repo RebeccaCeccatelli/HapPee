@@ -68,7 +68,7 @@ public class Map {
         for (HashMap.Entry<Integer,Address> address : businessAddresses.entrySet()) {
 
             LatLng businessCoordinates = getCoordinates(address.getValue());
-            Business business = new BusinessDAO().getBusinessFromAddressId(address.getKey());
+            Business business = new BusinessDAO().getBusinessByAddressId(address.getKey());
 
             if (businessCoordinates != null) {
                 webEngine.executeScript("setBusinessMarker("
@@ -124,7 +124,6 @@ public class Map {
         return null;
     }
 
-
     private static LatLng getCoordinates(Address address) {
         GeoApiContext context = new GeoApiContext.Builder()
                 .apiKey("AIzaSyDIPXUh0f0lNnmItHkBv0pzl4Mr7Hu32MQ")
@@ -140,7 +139,5 @@ public class Map {
         }
         return null;
     }
-
-
 }
 

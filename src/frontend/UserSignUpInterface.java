@@ -47,22 +47,22 @@ public class UserSignUpInterface extends SignUpInterface {
         showCurrentInterface("Sign up");
     }
 
-    protected DAO getDAO() {
+    DAO getDAO() {
         return new UserDAO();
     }
 
-    protected Dashboard getDashboard(int id) {
+    Dashboard getDashboard(int id) {
         return new UserDashboard(id);
     }
 
-    protected Object getSpecificField() {
+    Object getSpecificField() {
         return surnameField.getText();
     }
 
     @Override
-    protected void optional(DAO DAO, String email) {
-        int userId = DAO.getAccountId(email);
-        new UserPaymentDetailsDAO().addNewRow(userId);
+    void addRowToDetails(DAO DAO, String email) {
+        int userId = DAO.getAccountIdByEmail(email);
+        new UserPaymentDetailsDAO().addRow(userId);
     }
 }
 

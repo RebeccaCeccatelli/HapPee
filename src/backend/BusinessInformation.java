@@ -8,10 +8,11 @@ public class BusinessInformation extends AccountInformation{
 
     public BusinessInformation(int businessId) {
         super(businessId, new BusinessDAO());
-        this.address = new BusinessDAO().getAddressFromDatabase(businessId);
+        this.address = new AddressDAO().getAddressByBusinessId(businessId);
     }
 
-    public void saveSpecificField(Object... params) {
+    //The specific field is address
+    void saveSpecificField(Object... params) {
         setAddress(params[0], params[1], params[2], params[3], params[4]);
         AddressDAO addressDAO = new AddressDAO();
         int addressId = new BusinessDAO().getIntFromDB(getId(), "address_id");
@@ -22,7 +23,7 @@ public class BusinessInformation extends AccountInformation{
         addressDAO.update(addressId, "country", params[4]);
     }
 
-    public void setAddress(Object... params) {
+    private void setAddress(Object... params) {
         address.setStreet((String) params[0]);
         address.setCivicNumber((String) params[1]);
         address.setPostCode((String) params[2]);
@@ -30,8 +31,7 @@ public class BusinessInformation extends AccountInformation{
         address.setCountry((String) params[4]);
     }
 
-    public Object getSpecificField() {
+    Object getSpecificField() {
         return address;
     }
-
 }

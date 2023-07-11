@@ -19,19 +19,6 @@ public class SetTimesDashboard extends Interface {
         this.business = business;
     }
 
-    private void saveOpeningClosingTimes() {
-        String openingTimeString = openingTimeField.getText();
-        String closingTimeString = closingTimeField.getText();
-
-        Time openingTime = Time.valueOf(openingTimeString + ":00");
-        Time closingTime = Time.valueOf(closingTimeString + ":00");
-
-        business.saveTime(openingTime, "opening_time");
-        business.saveTime(closingTime, "closing_time");
-        showConfirmationDialog("Set Opening and Closing Times", "New Opening and Closing Times successfully saved!");
-        goBack();
-    }
-
     @Override
     public void start(Stage primaryStage) {
         setPrimaryStage(primaryStage);
@@ -53,5 +40,18 @@ public class SetTimesDashboard extends Interface {
         addToGridPane(backBUtton, 0, 2);
         addToGridPane(saveOCTimesBtn, 1, 2);
         showCurrentInterface("Set Opening and Closing Times");
+    }
+
+    private void saveOpeningClosingTimes() {
+        String openingTimeString = openingTimeField.getText();
+        String closingTimeString = closingTimeField.getText();
+
+        Time openingTime = Time.valueOf(openingTimeString + ":00");
+        Time closingTime = Time.valueOf(closingTimeString + ":00");
+
+        business.saveTime(openingTime, "opening_time");
+        business.saveTime(closingTime, "closing_time");
+        showConfirmationDialog("Set Opening and Closing Times", "New Opening and Closing Times successfully saved!");
+        goBack();
     }
 }

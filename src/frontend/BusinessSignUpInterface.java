@@ -14,10 +14,6 @@ public class BusinessSignUpInterface extends SignUpInterface {
     private TextField cityField;
     private TextField countryField;
 
-    protected DAO getDAO() {
-        return new BusinessDAO();
-    }
-
     @Override
     public void start(Stage primaryStage) {
         setPrimaryStage(primaryStage);
@@ -74,16 +70,20 @@ public class BusinessSignUpInterface extends SignUpInterface {
         showCurrentInterface("Business Registration");
     }
 
-    protected void optional(DAO DAO, String email){
-        int businessId = DAO.getAccountId(email);
-        new BusinessDetailsDAO().addNewRow("business_id", businessId);
+    DAO getDAO() {
+        return new BusinessDAO();
     }
 
-    protected Dashboard getDashboard(int id) {
+    void addRowToDetails(DAO DAO, String email){
+        int businessId = DAO.getAccountIdByEmail(email);
+        new BusinessDetailsDAO().addRow("business_id", businessId);
+    }
+
+    Dashboard getDashboard(int id) {
         return new BusinessDashboard(id);
     }
 
-    protected Object getSpecificField() {
+    Object getSpecificField() {
         return new Address(
                 streetField.getText(),
                 civicNumberField.getText(),

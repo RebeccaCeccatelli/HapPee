@@ -1,10 +1,10 @@
 package backend;
 
-
 import database.ReviewDAO;
 import database.UserPaymentDetailsDAO;
 
 public class User  extends Account{
+    private static final float PREMIUM_SUBSCRIPTION_COST = 100;
     private String subscription;
     private float creditBalance;
     private UserPaymentDetailsDAO userPaymentDetailsDAO = new UserPaymentDetailsDAO();
@@ -12,20 +12,49 @@ public class User  extends Account{
     public User(int id) {
         information = new UserInformation(id);
         reviews = new ReviewDAO().getReviewsByAccountId(id, "user_id");
-        int userPaymentDetailsId = userPaymentDetailsDAO.getIdFromUserId(id);
+
+        int userPaymentDetailsId = userPaymentDetailsDAO.getIdByUserId(id);
         subscription = userPaymentDetailsDAO.getStringFromDB(userPaymentDetailsId, "subscription");
         creditBalance = userPaymentDetailsDAO.getFLoatFromDB(userPaymentDetailsId, "credit");
     }
 
+    private void saveCreditBalance() {
+        userPaymentDetailsDAO.update(
+                userPaymentDetailsDAO.getIdByUserId(getId()), "credit", creditBalance
+        );
+    }
+
+    private void saveSubscription(String subscription) {
+        setSubscription(subscription);
+
+        userPaymentDetailsDAO.update(
+                userPaymentDetailsDAO.getIdByUserId(getId()), "subscription", "premium" );
+    }
+
+    public void saveReview(int businessId, String text, float rating) {
+        Review review = new Review(getId(), businessId, text, rating);
+        addReview(review);
+        review.save();
+    }
+
+    public void saveSpecificField(Object... params) {
+        information.saveSpecificField(params);
+    }
+
     public boolean upgradeToPremiumSubscription() {
-        if (creditBalance >= 100) {
-            creditBalance -= 100;
+        if (creditBalance >= PREMIUM_SUBSCRIPTION_COST) {
+            creditBalance -= PREMIUM_SUBSCRIPTION_COST;
             saveSubscription("premium");
             return true;
         }
         else{
             return false;
         }
+    }
+
+    public void topUpCredit(float amount) {
+        setCredit(amount);
+        saveCreditBalance();
     }
 
     public boolean pay(float amount) {
@@ -38,55 +67,27 @@ public class User  extends Account{
         }
     }
 
-    public void topUpCredit(float amount) {
-        setCredit(amount);
-        saveCreditBalance();
+    private void addReview(Review review) {
+        reviews.add(review);
     }
 
-    public void saveCreditBalance() {
-        userPaymentDetailsDAO.update(
-                userPaymentDetailsDAO.getIdFromUserId(getId()), "credit", creditBalance
-        );
-    }
-
-    public void setCredit(float amount) {
+    private void setCredit(float amount) {
         creditBalance += amount;
+    }
+
+    private void setSubscription(String subscription) {
+        this.subscription = subscription;
     }
 
     public float getCreditBalance() {
         return creditBalance;
     }
 
-    private void saveSubscription(String subscription) {
-        setSubscription(subscription);
-
-        userPaymentDetailsDAO.update(
-                userPaymentDetailsDAO.getIdFromUserId(getId()), "subscription", "premium" );
-    }
-
-    public void setSubscription(String subscription) {
-        this.subscription = subscription;
-    }
-
     public String getSubscription() {
         return subscription;
     }
 
-    public void saveSpecificField(Object... params) {
-        information.saveSpecificField(params);
-    }
-
     public Object getSpecificField() {
         return information.getSpecificField();
-    }
-
-    public void saveReview(int businessId, String text, float rating) {
-        Review review = new Review(getId(), businessId, text, rating);
-        addReview(review);
-        review.save();
-    }
-
-    public void addReview(Review review) {
-        reviews.add(review);
     }
 }

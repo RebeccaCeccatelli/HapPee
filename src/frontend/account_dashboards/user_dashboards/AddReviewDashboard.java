@@ -18,29 +18,6 @@ public class AddReviewDashboard extends Interface {
         this.user = user;
     }
 
-    private void saveReview() {
-        String businessName = businessNameField.getText();
-        String text = reviewField.getText();
-        float rating = Float.parseFloat(ratingField.getText());
-
-        int businessId = new BusinessDAO().checkBusinessName(businessName);
-        if (businessId == -1) {
-            showAlert("Invalid business name", "We couldn't find the business name you entered. Try again.");
-            businessNameField.clear();
-            }
-        else {
-            if (rating >= 0 && rating <= 5) {
-                user.saveReview(businessId, text, rating);
-                showConfirmationDialog("Add new review", "Review successfully submitted!");
-                goBack();
-            }
-            else {
-                showAlert("Invalid rating", "The rating must be between 0 and 5. ");
-                ratingField.clear();
-            }
-        }
-    }
-
     @Override
     public void start(Stage primaryStage) {
         setPrimaryStage(primaryStage);
@@ -66,5 +43,28 @@ public class AddReviewDashboard extends Interface {
         addToGridPane(saveReviewBtn, 1, 3);
 
         showCurrentInterface("Add new Review");
+    }
+
+    private void saveReview() {
+        String businessName = businessNameField.getText();
+        String text = reviewField.getText();
+        float rating = Float.parseFloat(ratingField.getText());
+
+        int businessId = new BusinessDAO().getIdByBusinessName(businessName);
+        if (businessId == -1) {
+            showAlert("Invalid business name", "We couldn't find the business name you entered. Try again.");
+            businessNameField.clear();
+        }
+        else {
+            if (rating >= 0 && rating <= 5) {
+                user.saveReview(businessId, text, rating);
+                showConfirmationDialog("Add new review", "Review successfully submitted!");
+                goBack();
+            }
+            else {
+                showAlert("Invalid rating", "The rating must be between 0 and 5. ");
+                ratingField.clear();
+            }
+        }
     }
 }

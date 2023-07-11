@@ -7,11 +7,7 @@ import java.util.ArrayList;
 
 public class ReviewDAO extends DAO {
 
-    public String getTableName() {
-        return "Review";
-    }
-
-    public boolean addNewRow(Object... params) {
+    public boolean addRow(Object... params) {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sqlCommand = "INSERT INTO \"Review\"" +
                     "(user_id, business_id, text, rating, date, time) VALUES (?, ?, ?, ?, ?, ?)";
@@ -30,6 +26,10 @@ public class ReviewDAO extends DAO {
             return false;
         }
         return true;
+    }
+
+    String getTableName() {
+        return "Review";
     }
 
     public ArrayList<Review> getReviewsByAccountId(int accountId, String idType) {

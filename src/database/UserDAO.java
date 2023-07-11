@@ -4,11 +4,7 @@ import java.sql.*;
 
 public class UserDAO extends DAO {
 
-    public String getTableName() {
-        return "User";
-    }
-
-    public boolean addNewRow(Object... params) {
+    public boolean addRow(Object... params) {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sqlCommand = "INSERT INTO \"User\" (name, surname, email, password) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sqlCommand);
@@ -26,7 +22,11 @@ public class UserDAO extends DAO {
         return true;
     }
 
-    public boolean checkUserExistence(String email, String password) {
+    String getTableName() {
+        return "User";
+    }
+
+    public boolean checkIfUserRegistered(String email, String password) {
         boolean result = false;
         String query = "SELECT * FROM \"User\" WHERE email = ? AND password = ?";
 

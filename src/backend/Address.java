@@ -15,6 +15,26 @@ public class Address{
         this.country = country;
     }
 
+    void setStreet(String street) {
+        this.street = street;
+    }
+
+    void setCivicNumber(String civicNumber) {
+        this.civicNumber = civicNumber;
+    }
+
+    void setPostCode(String postCode) {
+        this.postCode = postCode;
+    }
+
+    void setCity(String city) {
+        this.city = city;
+    }
+
+    void setCountry(String country) {
+        this.country = country;
+    }
+
     public String getStreet() {
         return street;
     }
@@ -35,27 +55,6 @@ public class Address{
         return country;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public void setCivicNumber(String civicNumber) {
-        this.civicNumber = civicNumber;
-    }
-
-    public void setPostCode(String postCode) {
-        this.postCode = postCode;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    //valutare se spostare questo come metodo di Map, invece che qui
     public String getAddressAsString() {
         return street + " " + civicNumber + ", " + postCode + " " + city + ", " + country;
     }

@@ -3,18 +3,12 @@ package frontend.account_dashboards.business_dashboards;
 import backend.Business;
 import frontend.account_dashboards.AccountDetailsDashboard;
 import javafx.stage.Stage;
-
 import javafx.scene.control.*;
 
 public class BusinessAccountDetailsDashboard extends AccountDetailsDashboard {
 
     public BusinessAccountDetailsDashboard(Business business) {
         this.account = business;
-    }
-
-    private void saveAddress() {
-            ModifyBusinessAddressDashboard modifyBusinessAddressDashboard = new ModifyBusinessAddressDashboard(account);
-            showNextInterface(modifyBusinessAddressDashboard);
     }
 
     @Override
@@ -37,5 +31,10 @@ public class BusinessAccountDetailsDashboard extends AccountDetailsDashboard {
         addToGridPane(backButton, 0, 5);
 
         showCurrentInterface("Modify Account Details");
+    }
+
+    private void saveAddress() {
+        ModifyBusinessAddressDashboard modifyBusinessAddressDashboard = new ModifyBusinessAddressDashboard(account);
+        showNextInterface(modifyBusinessAddressDashboard);
     }
 }

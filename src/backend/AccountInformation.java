@@ -16,50 +16,51 @@ public abstract class AccountInformation {
         this.email = DAO.getStringFromDB(id, "name");
         this.password = DAO.getStringFromDB(id, "password");
     }
-    public void saveName(String newName) {
+
+    void saveName(String newName) {
         setName(newName);
         DAO.update(id, "name", newName);
+    }
+
+    void saveEmail(String newEmail) {
+        setEmail(newEmail);
+        DAO.update(id, "email", newEmail);
+    }
+
+    void savePassword(String newPassword) {
+        setPassword(newPassword);
+        DAO.update(id, "password", newPassword);
+    }
+
+    abstract void saveSpecificField(Object... params);
+
+    private void setName(String newName) {
+        this.name = newName;
     }
 
     private void setEmail(String newEmail) {
         this.email = newEmail;
     }
 
-    public void saveEmail(String newEmail) {
-        setEmail(newEmail);
-        DAO.update(id, "email", newEmail);
-    }
-
     private void setPassword(String newPassword) {
         this.password = newPassword;
     }
 
-    public void savePassword(String newPassword) {
-        setPassword(newPassword);
-        DAO.update(id, "password", newPassword);
-    }
-
-    private void setName(String newName) {
-        this.name = newName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public int getId() {
+    int getId() {
         return this.id;
     }
 
-    public abstract void saveSpecificField(Object... params);
+    String getName() {
+        return name;
+    }
 
-    public abstract Object getSpecificField();
+    String getEmail() {
+        return email;
+    }
+
+    String getPassword() {
+        return password;
+    }
+
+    abstract Object getSpecificField();
 }

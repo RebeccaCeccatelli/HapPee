@@ -21,18 +21,6 @@ public class ModifyBusinessAddressDashboard extends Interface {
         this.business = business;
     }
 
-    public void saveNewAddress() {
-        String newStreet = streetField.getText();
-        String newCivicNumber = civicNumberField.getText();
-        String newPostCode = postCodeField.getText();
-        String newCity = cityField.getText();
-        String newCountry = countryField.getText();
-
-        business.saveSpecificField(newStreet, newCivicNumber, newPostCode, newCity, newCountry);
-        showConfirmationDialog("Save new Address", "New Address successfully saved!");
-        goBack();
-    }
-
     @Override
     public void start(Stage primaryStage) {
         setPrimaryStage(primaryStage);
@@ -69,5 +57,17 @@ public class ModifyBusinessAddressDashboard extends Interface {
         addToGridPane(saveNewAddressBtn, 1, 6);
 
         showCurrentInterface("Modify business address");
+    }
+
+    private void saveNewAddress() {
+        String newStreet = streetField.getText();
+        String newCivicNumber = civicNumberField.getText();
+        String newPostCode = postCodeField.getText();
+        String newCity = cityField.getText();
+        String newCountry = countryField.getText();
+
+        business.saveSpecificField(newStreet, newCivicNumber, newPostCode, newCity, newCountry);
+        showConfirmationDialog("Save new Address", "New Address successfully saved!");
+        goBack();
     }
 }
