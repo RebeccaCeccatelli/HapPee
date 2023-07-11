@@ -50,7 +50,8 @@ public class Map {
     }
 
     private static void placeUser(WebEngine webEngine) {
-        Coordinates userCoordinates = getUserCoordinates();
+        Coordinates userCoordinates = new Coordinates(43.894802, 11.078182);
+        //Coordinates userCoordinates = getUserCoordinates();
         if (userCoordinates != null) {
             webEngine.executeScript("setCoordinates("
                     + userCoordinates.getLatitude() + ", "
