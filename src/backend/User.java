@@ -52,6 +52,11 @@ public class User  extends Account{
         }
     }
 
+    //method created for testing purposes
+    public void downgradeToStandardSubscription() {
+        saveSubscription("standard");
+    }
+
     public void topUpCredit(float amount) {
         setCredit(amount);
         saveCreditBalance();

@@ -1,5 +1,7 @@
 package backend;
 
+import java.util.Objects;
+
 public class Address{
     private String street;
     private String civicNumber;
@@ -57,5 +59,25 @@ public class Address{
 
     public String getAddressAsString() {
         return street + " " + civicNumber + ", " + postCode + " " + city + ", " + country;
+    }
+
+    //method created for testing purposes
+    public static boolean equals(Address firstAddress, Address secondAddress) {
+        if (Objects.equals(firstAddress.street, secondAddress.street)) {
+            if (Objects.equals(firstAddress.civicNumber, secondAddress.civicNumber)) {
+                if (Objects.equals(firstAddress.postCode, secondAddress.postCode)) {
+                    if (Objects.equals(firstAddress.city, secondAddress.city)) {
+                        if (Objects.equals(firstAddress.country, secondAddress.country)) {
+                            return true;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
+                return false;
+            }
+            return false;
+        }
+        return false;
     }
 }

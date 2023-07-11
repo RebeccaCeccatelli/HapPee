@@ -25,7 +25,7 @@ public abstract class DAO {
         }
     }
 
-    public boolean emailAlreadyExists (String email){
+    public boolean emailAlreadyExists(String email) {
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sqlCommand = "SELECT COUNT(*) FROM public.\"User\" WHERE email = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sqlCommand)) {
@@ -63,7 +63,7 @@ public abstract class DAO {
         return id;
     }
 
-    public int getIntFromDB(int id, String column){
+    public int getIntFromDB(int id, String column) {
         int desiredField = -1;
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sql = "SELECT " + column + " FROM \"" + getTableName() + "\" WHERE id = ?";
@@ -120,7 +120,7 @@ public abstract class DAO {
         return desiredField;
     }
 
-    public String getStringFromDB(int id, String column){
+    public String getStringFromDB(int id, String column) {
         String desiredField = null;
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sql = "SELECT " + column + " FROM \"" + getTableName() + "\" WHERE id = ?";
@@ -138,4 +138,23 @@ public abstract class DAO {
         }
         return desiredField;
     }
+
+    public int getMaxId() {
+        int maxId = 0;
+
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            String sql = "SELECT MAX(id) AS max_id FROM \"" + getTableName() + "\"";
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                maxId = resultSet.getInt("max_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return maxId;
+    }
+
 }

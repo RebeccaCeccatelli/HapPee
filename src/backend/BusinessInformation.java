@@ -34,4 +34,12 @@ public class BusinessInformation extends AccountInformation{
     Object getSpecificField() {
         return address;
     }
+
+    public static boolean equals(BusinessInformation first, BusinessInformation second) {
+        if (AccountInformation.equals(first, second)) {
+            return Address.equals((Address) first.getSpecificField(), (Address) second.getSpecificField());
+        }
+        return false;
+    }
+
 }

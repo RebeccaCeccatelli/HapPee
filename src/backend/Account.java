@@ -38,8 +38,11 @@ public abstract class Account {
 
     public abstract Object getSpecificField();
 
+    public AccountInformation getInformation() { return information; }
+
     public ArrayList<Review> getReviews() {
         return reviews;
     }
+
 }
 

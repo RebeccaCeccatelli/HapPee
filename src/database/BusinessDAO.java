@@ -1,8 +1,10 @@
 package database;
 
 import java.sql.*;
+import java.util.Random;
 
 import backend.Business;
+import org.junit.Test;
 
 public class BusinessDAO extends DAO {
 
@@ -100,4 +102,5 @@ public class BusinessDAO extends DAO {
         }
         return business;
     }
+
 }

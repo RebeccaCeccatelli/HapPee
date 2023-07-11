@@ -2,6 +2,8 @@ package backend;
 
 import database.DAO;
 
+import java.util.Objects;
+
 public abstract class AccountInformation {
     protected int id;
     protected String name;
@@ -63,4 +65,20 @@ public abstract class AccountInformation {
     }
 
     abstract Object getSpecificField();
+
+    public static boolean equals(AccountInformation first, AccountInformation second) {
+        if (first.getId() == second.getId()) {
+            if (Objects.equals(first.getName(), second.getName())) {
+                if (Objects.equals(first.getEmail(), second.getEmail())) {
+                    if (Objects.equals(first.getPassword(), second.getPassword())) {
+                        return true;
+                    }
+                    return false;
+                }
+                return false;
+            }
+            return false;
+        }
+        return false;
+    }
 }

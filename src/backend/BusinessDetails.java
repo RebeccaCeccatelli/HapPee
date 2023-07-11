@@ -3,6 +3,7 @@ package backend;
 import database.BusinessDetailsDAO;
 
 import java.sql.*;
+import java.util.Objects;
 
 public class BusinessDetails {
     private int id;
@@ -12,6 +13,28 @@ public class BusinessDetails {
     private Time closingTime;
     private int accessCode;
     private BusinessDetailsDAO businessDetailsDAO = new BusinessDetailsDAO();
+
+    public static boolean equals(BusinessDetails first, BusinessDetails second) {
+        if (first.getId() == second.getId()) {
+            if (Objects.equals(first.getBusinessType(), second.getBusinessType())) {
+                if (first.getAccessPrice() == second.getAccessPrice()) {
+                    if (Objects.equals(first.getOpeningTime(), second.getOpeningTime())) {
+                        if (Objects.equals(first.getClosingTime(), second.getClosingTime())) {
+                            if (first.getAccessCode() == second.getAccessCode()) {
+                                return true;
+                            }
+                            return false;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
+                return false;
+            }
+            return false;
+        }
+        return false;
+    }
 
     public BusinessDetails(int businessId) {
         this.id = businessDetailsDAO.getIdByBusinessId(businessId);
@@ -62,6 +85,8 @@ public class BusinessDetails {
             this.closingTime = time;
         }
     }
+
+    public int getId() { return id; }
 
     public String getBusinessType() {
         return businessType;

@@ -43,8 +43,8 @@ public class Business extends Account {
         return information.getSpecificField();
     }
 
-    public float getAverageRating() {
-        float average = 0;
+    public double getAverageRating() {
+        double average = 0;
         if (reviews.size() != 0) {
             for (Review review : reviews) {
                 average += review.getRating();
@@ -53,4 +53,18 @@ public class Business extends Account {
         }
         return average;
     }
+
+    public static boolean equals(Business first, Business second) {
+        if (BusinessInformation.equals(first.getInformation(), second.getInformation())) {
+            if (BusinessDetails.equals(first.getDetails(), second.getDetails())) {
+                if (first.getReviews().size() == second.getReviews().size()) {
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+        return false;
+    }
+
 }
