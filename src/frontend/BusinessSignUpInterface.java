@@ -92,4 +92,13 @@ public class BusinessSignUpInterface extends SignUpInterface {
                 countryField.getText()
         );
     }
+
+    protected void clearPersonalFields() {
+        super.clearPersonalFields();
+        streetField.clear();
+        civicNumberField.clear();
+        postcodeField.clear();
+        cityField.clear();
+        countryField.clear();
+    }
 }

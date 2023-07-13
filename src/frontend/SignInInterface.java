@@ -54,7 +54,7 @@ public class SignInInterface extends Interface {
         showNextInterface(dashboard);
     }
 
-    private void clearPersonalFields() {
+    protected void clearPersonalFields() {
         emailTextField.clear();
         passwordField.clear();
     }

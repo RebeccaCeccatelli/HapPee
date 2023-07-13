@@ -59,10 +59,14 @@ public class UserSignUpInterface extends SignUpInterface {
         return surnameField.getText();
     }
 
-    @Override
     void addRowToDetails(DAO DAO, String email) {
         int userId = DAO.getIdByEmail(email);
         new UserPaymentDetailsDAO().addRow(userId);
+    }
+
+    protected void clearPersonalFields() {
+        super.clearPersonalFields();
+        surnameField.clear();
     }
 }
 

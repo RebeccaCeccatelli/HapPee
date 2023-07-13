@@ -67,6 +67,8 @@ public abstract class Interface extends Application {
         primaryStage.setScene(previousScene);
     }
 
+    protected void clearPersonalFields() {}
+
     protected static void showConfirmationDialog(String title, String message) {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle(title);

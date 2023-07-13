@@ -30,6 +30,7 @@ public abstract class SignUpInterface extends Interface {
                 addRowToDetails(DAO, email);
                 showConfirmationDialog("Registration Completed", "Registration successfully completed!");
                 Dashboard dashboard = getDashboard(DAO.getIdByEmail(email));
+                clearPersonalFields();
                 showNextInterface(dashboard);
             }
         }
@@ -42,4 +43,11 @@ public abstract class SignUpInterface extends Interface {
     abstract Object getSpecificField();
 
     abstract Dashboard getDashboard(int id);
+
+    protected  void clearPersonalFields() {
+        nameField.clear();
+        emailField.clear();
+        passwordField.clear();
+        confirmPasswordField.clear();
+    }
 }
