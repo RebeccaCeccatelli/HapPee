@@ -159,7 +159,6 @@ public abstract class DAO {
     }
 
     //implemented for testing purposes
-
     public int getTableSize() {
         int tableSize = 0;
 
@@ -180,5 +179,4 @@ public abstract class DAO {
 
         return tableSize;
     }
-
 }

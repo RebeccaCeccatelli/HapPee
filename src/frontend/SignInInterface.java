@@ -50,6 +50,7 @@ public class SignInInterface extends Interface {
     }
 
     private void showDashboard(Dashboard dashboard) {
+        showConfirmationDialog("Login Completed", "Login successful!");
         clearPersonalFields();
         showNextInterface(dashboard);
     }
