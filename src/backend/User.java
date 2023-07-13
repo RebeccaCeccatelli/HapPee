@@ -6,7 +6,7 @@ import database.UserPaymentDetailsDAO;
 public class User  extends Account{
     private static final float PREMIUM_SUBSCRIPTION_COST = 100;
     private String subscription;
-    private float creditBalance;
+    private double creditBalance;
     private UserPaymentDetailsDAO userPaymentDetailsDAO = new UserPaymentDetailsDAO();
 
     public User(int id) {
@@ -15,7 +15,7 @@ public class User  extends Account{
 
         int userPaymentDetailsId = userPaymentDetailsDAO.getIdByUserId(id);
         subscription = userPaymentDetailsDAO.getStringFromDB(userPaymentDetailsId, "subscription");
-        creditBalance = userPaymentDetailsDAO.getFLoatFromDB(userPaymentDetailsId, "credit");
+        creditBalance = userPaymentDetailsDAO.getDoubleFromDB(userPaymentDetailsId, "credit");
     }
 
     private void saveCreditBalance() {
@@ -62,7 +62,7 @@ public class User  extends Account{
         saveCreditBalance();
     }
 
-    public boolean pay(float amount) {
+    public boolean pay(double amount) {
         if (amount > creditBalance) {
             return false;
         }
@@ -84,7 +84,7 @@ public class User  extends Account{
         this.subscription = subscription;
     }
 
-    public float getCreditBalance() {
+    public double getCreditBalance() {
         return creditBalance;
     }
 

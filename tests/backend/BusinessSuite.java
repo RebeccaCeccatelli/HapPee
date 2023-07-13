@@ -1,9 +1,10 @@
 package backend;
 
+import database.ReviewDAO;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.sql.Time;
+import java.sql.*;
 
 public class BusinessSuite {
     private Business business = new Business(41);
@@ -23,8 +24,11 @@ public class BusinessSuite {
     @Test
     public void saveAccessPriceTest() {
         business.saveAccessPrice(5);
-        Assert.assertNotEquals(business.getDetails().getAccessPrice(),0.70);
-        Assert.assertEquals(business.getDetails().getAccessPrice(), 5, 0.000001);
+        Assert.assertNotEquals(0.70, business.getDetails().getAccessPrice());
+        Assert.assertEquals(5, business.getDetails().getAccessPrice(), 0);
+
+        business.saveAccessPrice(0.70);
+        Assert.assertEquals(0.70, business.getDetails().getAccessPrice(), 0);
     }
 
     @Test
@@ -69,6 +73,7 @@ public class BusinessSuite {
         double oldNumerator = oldRating * oldSize;
 
         User user = new User(32);
+
         user.saveReview(41, "test", 3);
         user.saveReview(41,"test",5);
         user.saveReview(41, "test", 2);
@@ -77,5 +82,8 @@ public class BusinessSuite {
         double expectedRating = (oldNumerator + 15) / (oldSize + 4);
         double averageRating = new Business(41).getAverageRating();
         Assert.assertEquals(expectedRating, averageRating, 0.0);
+
+        new ReviewDAO().deleteTestReviews(41, "test");
     }
+
 }

@@ -61,7 +61,7 @@ public class UserSignUpInterface extends SignUpInterface {
 
     @Override
     void addRowToDetails(DAO DAO, String email) {
-        int userId = DAO.getAccountIdByEmail(email);
+        int userId = DAO.getIdByEmail(email);
         new UserPaymentDetailsDAO().addRow(userId);
     }
 }

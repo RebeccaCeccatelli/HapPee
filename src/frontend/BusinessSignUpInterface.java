@@ -75,7 +75,7 @@ public class BusinessSignUpInterface extends SignUpInterface {
     }
 
     void addRowToDetails(DAO DAO, String email){
-        int businessId = DAO.getAccountIdByEmail(email);
+        int businessId = DAO.getIdByEmail(email);
         new BusinessDetailsDAO().addRow("business_id", businessId);
     }
 

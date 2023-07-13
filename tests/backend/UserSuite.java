@@ -1,5 +1,6 @@
 package backend;
 
+import database.ReviewDAO;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -9,11 +10,11 @@ public class UserSuite {
     //tests both saveCreditBalance() and topUpCredit()
     @Test
     public void topUpCreditTest() {
-        float oldCredit = user.getCreditBalance();
-        user.topUpCredit(20);
-        float newCredit = user.getCreditBalance();
+        double oldCredit = user.getCreditBalance();
+        user.topUpCredit(5);
+        double newCredit = user.getCreditBalance();
 
-        Assert.assertEquals(oldCredit + 20, newCredit, 0.0);
+        Assert.assertEquals(oldCredit + 5, newCredit, 0.0);
     }
 
     //tests both saveSubscription() and upgradeToPremiumSubscription()
@@ -36,17 +37,19 @@ public class UserSuite {
         user.saveReview(41,"test", 4);
 
         Assert.assertEquals(oldReviewsSize + 1, new User(32).getReviews().size());
+
+        new ReviewDAO().deleteTestReviews(41, "test");
     }
 
     @Test
     public void payTest() {
-        float oldBalance = user.getCreditBalance();
-        final float amountToPay = 10;
+        double oldBalance = user.getCreditBalance();
+        final double amountToPay = 10;
         if(user.pay(amountToPay)) {
             Assert.assertEquals(oldBalance - amountToPay, user.getCreditBalance(), 0);
         }
         else {
-            Assert.assertEquals(oldBalance, user.getCreditBalance());
+            Assert.assertEquals(oldBalance, user.getCreditBalance(),0);
         }
     }
 
@@ -56,7 +59,9 @@ public class UserSuite {
         String newSurname = "Verdi";
 
         user.saveSpecificField(newSurname);
-
         Assert.assertEquals(newSurname, user.getSpecificField());
+
+        user.saveSpecificField("Rossi");
+        Assert.assertEquals("Rossi", user.getSpecificField());
     }
 }

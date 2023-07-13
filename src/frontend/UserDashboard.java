@@ -75,7 +75,7 @@ public class UserDashboard extends Dashboard {
                         business.getAccessCode());
             }
             else {
-                float accessPrice = business.getDetails().getAccessPrice();
+                double accessPrice = business.getDetails().getAccessPrice();
                 if (requestPaymentConfirmation(accessPrice)) {
                     if (user.pay(accessPrice)) {
                         showConfirmationDialog("Payment successful! You just paid " + accessPrice +
@@ -91,7 +91,7 @@ public class UserDashboard extends Dashboard {
         }
     }
 
-    private boolean requestPaymentConfirmation(float amount) {
+    private boolean requestPaymentConfirmation(double amount) {
         final boolean[] permission = {false};
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Payment confirmation.");
@@ -124,7 +124,7 @@ public class UserDashboard extends Dashboard {
         dialog.setTitle("Top up credit");
         dialog.setHeaderText("Enter the amount you want to top up: ");
 
-        float currentBalance = user.getCreditBalance();
+        double currentBalance = user.getCreditBalance();
         dialog.setContentText("Current balance: " + currentBalance + "$. ");
 
         dialog.getDialogPane().setGraphic(null);

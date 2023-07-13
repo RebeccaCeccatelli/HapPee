@@ -16,7 +16,7 @@ public class ReviewDAO extends DAO {
             statement.setInt(1, (int) params[0]);
             statement.setInt(2, (int) params[1]);
             statement.setString(3, (String) params[2]);
-            statement.setFloat(4, (float) params[3]);
+            statement.setDouble(4, (Double) params[3]);
             statement.setDate(5, (Date) params[4]);
             statement.setTime(6, (Time) params[5]);
 
@@ -47,7 +47,7 @@ public class ReviewDAO extends DAO {
                     int userId = resultSet.getInt("user_id");
                     int businessId = resultSet.getInt("business_id");
                     String text = resultSet.getString("text");
-                    float rating = resultSet.getFloat("rating");
+                    double rating = resultSet.getDouble("rating");
                     Date date = resultSet.getDate("date");
                     Time time = resultSet.getTime("time");
 
@@ -60,6 +60,23 @@ public class ReviewDAO extends DAO {
         }
 
         return reviews;
+    }
+
+    //implemented for testing purposes
+    public void deleteTestReviews(int businessId, String text) {
+
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(
+                     "DELETE FROM \"Review\" WHERE business_id = ? AND text = ?")) {
+
+            statement.setInt(1, businessId);
+            statement.setString(2, text);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
 

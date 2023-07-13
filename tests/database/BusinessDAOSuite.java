@@ -5,31 +5,37 @@ import backend.Business;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Random;
-
 public class BusinessDAOSuite {
     BusinessDAO businessDAO = new BusinessDAO();
 
     @Test
     public void addRowTest() {
-        BusinessDAO thisTestBusinessDAO = new BusinessDAO();
-        int oldMaxId = thisTestBusinessDAO.getMaxId();
-        String test = generateRandomString();
-        Address testAddress = new Address(test, test, test, test, test);
-        thisTestBusinessDAO.addRow(test, testAddress, test, test);
+        int previousSize = businessDAO.getTableSize();
+        String randomString = Utils.generateRandomString();
+        Address testAddress = new Address(randomString, randomString, randomString, randomString, randomString);
 
-        Assert.assertEquals(oldMaxId + 1, thisTestBusinessDAO.getMaxId());
+        businessDAO.addRow(randomString, testAddress, randomString, randomString);
+        try {
+            Assert.assertEquals(previousSize + 1, businessDAO.getTableSize());
+        }
+        finally {
+            cleanUp(randomString);
+        }
     }
 
     @Test
     public void checkIfBusinessRegisteredTest() {
-        BusinessDAO thisTestBusinessDAO = new BusinessDAO();
-        String registeredTest = generateRandomString();
-        Address testAddress = new Address(registeredTest, registeredTest, registeredTest, registeredTest, registeredTest);
-        thisTestBusinessDAO.addRow(registeredTest, testAddress, registeredTest, registeredTest);
+        String randomString = Utils.generateRandomString();
+        Address testAddress = new Address(randomString, randomString, randomString, randomString, randomString);
 
-        Assert.assertTrue(thisTestBusinessDAO.checkIfBusinessRegistered(registeredTest, registeredTest));
-        Assert.assertFalse(thisTestBusinessDAO.checkIfBusinessRegistered("notRegisteredTest", "notRegisteredTest"));
+        businessDAO.addRow(randomString, testAddress, randomString, randomString);
+        try {
+            Assert.assertTrue(businessDAO.checkIfBusinessRegistered(randomString, randomString));
+            Assert.assertFalse(businessDAO.checkIfBusinessRegistered("notRegisteredTest", "notRegisteredTest"));
+        }
+        finally {
+            cleanUp(randomString);
+        }
     }
 
     @Test
@@ -67,18 +73,38 @@ public class BusinessDAOSuite {
         Assert.assertEquals(oldName, oldBusiness.getName());
     }
 
-    public static String generateRandomString() {
-        final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        final int STRING_LENGTH = 5;
-        StringBuilder stringBuilder = new StringBuilder(STRING_LENGTH);
-        Random random = new Random();
+    @Test
+    public void emailAlreadyExistsTest() {
+        String randomString = Utils.generateRandomString();
 
-        for (int i = 0; i < STRING_LENGTH; i++) {
-            int randomIndex = random.nextInt(CHARACTERS.length());
-            char randomChar = CHARACTERS.charAt(randomIndex);
-            stringBuilder.append(randomChar);
+        Assert.assertFalse(businessDAO.emailAlreadyExists(randomString));
+
+        Address address = new Address(randomString, randomString, randomString, randomString ,randomString);
+        businessDAO.addRow(randomString, address, randomString, randomString);
+
+        try {
+            Assert.assertTrue(businessDAO.emailAlreadyExists(randomString));
         }
+        finally {
+            cleanUp(randomString);
+        }
+    }
 
-        return stringBuilder.toString();
+    @Test
+    public void getIdByEmailTest() {
+        Assert.assertEquals(31, businessDAO.getIdByEmail("pizzaquadra@libero.it"));
+
+        Assert.assertEquals(41, businessDAO.getIdByEmail("barroberta@gmail.com"));
+    }
+
+    @Test
+    public void getIntFromDBTest() {
+        Assert.assertEquals(47, businessDAO.getIntFromDB(41, "address_id"));
+    }
+
+
+    private void cleanUp(String key) {
+        new AddressDAO().deleteTestAddresses(key, key);
+        businessDAO.deleteTestBusiness(key);
     }
 }

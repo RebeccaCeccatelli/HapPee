@@ -6,16 +6,17 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Objects;
 
 public class Review {
     private int userId;
     private int businessId;
     private String text;
-    private float rating;
+    private double rating;
     private Date date;
     private Time time;
 
-    public Review(int userId, int businessId, String text, float rating){
+    public Review(int userId, int businessId, String text, double rating){
         this.userId = userId;
         this.businessId = businessId;
         this.text = text;
@@ -24,7 +25,7 @@ public class Review {
         this.time = Time.valueOf(LocalTime.now());
     }
 
-    public Review(int userId, int businessId, String text, float rating, Date date, Time time) {
+    public Review(int userId, int businessId, String text, double rating, Date date, Time time) {
         this(userId, businessId, text, rating);
         this.date = date;
         this.time = time;
@@ -46,7 +47,7 @@ public class Review {
         return text;
     }
 
-    public float getRating() {
+    public double getRating() {
         return rating;
     }
 
@@ -56,5 +57,27 @@ public class Review {
 
     public String getTime() {
         return time.toString();
+    }
+
+    public static boolean equals(Review first, Review second) {
+        if (first.getUserId() == second.getUserId()) {
+            if (first.getBusinessId() == second.getBusinessId()) {
+                if (Objects.equals(first.getText(), second.getText())) {
+                    if (first.getRating() == second.getRating()) {
+                        if (Objects.equals(first.getDate(), second.getDate())) {
+                            if (Objects.equals(first.getTime(), second.getTime())) {
+                                return true;
+                            }
+                            return false;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
+                return false;
+            }
+            return false;
+        }
+        return false;
     }
 }

@@ -8,38 +8,16 @@ import java.util.Objects;
 public class BusinessDetails {
     private int id;
     private String businessType;
-    private float singleAccessPrice;
+    private double singleAccessPrice;
     private Time openingTime;
     private Time closingTime;
     private int accessCode;
     private BusinessDetailsDAO businessDetailsDAO = new BusinessDetailsDAO();
 
-    public static boolean equals(BusinessDetails first, BusinessDetails second) {
-        if (first.getId() == second.getId()) {
-            if (Objects.equals(first.getBusinessType(), second.getBusinessType())) {
-                if (first.getAccessPrice() == second.getAccessPrice()) {
-                    if (Objects.equals(first.getOpeningTime(), second.getOpeningTime())) {
-                        if (Objects.equals(first.getClosingTime(), second.getClosingTime())) {
-                            if (first.getAccessCode() == second.getAccessCode()) {
-                                return true;
-                            }
-                            return false;
-                        }
-                        return false;
-                    }
-                    return false;
-                }
-                return false;
-            }
-            return false;
-        }
-        return false;
-    }
-
     public BusinessDetails(int businessId) {
         this.id = businessDetailsDAO.getIdByBusinessId(businessId);
         this.businessType = businessDetailsDAO.getStringFromDB(id, "business_type");
-        this.singleAccessPrice = businessDetailsDAO.getFLoatFromDB(id, "single_access_price");
+        this.singleAccessPrice = businessDetailsDAO.getDoubleFromDB(id, "single_access_price");
         this.openingTime = businessDetailsDAO.getTimeFromDB(id, "opening_time");
         this.closingTime = businessDetailsDAO.getTimeFromDB(id, "closing_time");
         this.accessCode = businessDetailsDAO.getIntFromDB(id, "access_code");
@@ -50,7 +28,7 @@ public class BusinessDetails {
         businessDetailsDAO.update(id, "business_type", businessType);
     }
 
-    void saveAccessPrice(float accessPrice) {
+    void saveAccessPrice(double accessPrice) {
         setAccessPrice(accessPrice);
         businessDetailsDAO.update(id, "single_access_price", accessPrice);
     }
@@ -73,7 +51,7 @@ public class BusinessDetails {
         this.accessCode = accessCode;
     }
 
-    private void setAccessPrice(float accessPrice) {
+    private void setAccessPrice(double accessPrice) {
         this.singleAccessPrice = accessPrice;
     }
 
@@ -92,7 +70,7 @@ public class BusinessDetails {
         return businessType;
     }
 
-    public float getAccessPrice() {
+    public double getAccessPrice() {
         return singleAccessPrice;
     }
 
@@ -104,5 +82,27 @@ public class BusinessDetails {
 
     public String getClosingTime() {
         return closingTime.toString();
+    }
+
+    public static boolean equals(BusinessDetails first, BusinessDetails second) {
+        if (first.getId() == second.getId()) {
+            if (Objects.equals(first.getBusinessType(), second.getBusinessType())) {
+                if (first.getAccessPrice() == second.getAccessPrice()) {
+                    if (Objects.equals(first.getOpeningTime(), second.getOpeningTime())) {
+                        if (Objects.equals(first.getClosingTime(), second.getClosingTime())) {
+                            if (first.getAccessCode() == second.getAccessCode()) {
+                                return true;
+                            }
+                            return false;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
+                return false;
+            }
+            return false;
+        }
+        return false;
     }
 }

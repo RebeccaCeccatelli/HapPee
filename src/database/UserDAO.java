@@ -46,4 +46,19 @@ public class UserDAO extends DAO {
         }
         return result;
     }
+
+    //implemented for testing purposes
+    public void deleteTestUser(int id) {
+
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(
+                     "DELETE FROM \"User\" WHERE id = ?")) {
+
+            statement.setInt(1, id);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

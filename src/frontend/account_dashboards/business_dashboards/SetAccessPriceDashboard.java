@@ -24,8 +24,8 @@ public class SetAccessPriceDashboard extends Interface {
 
         Label accessPriceLabel = new Label("Set single access price:");
 
-        float oldAccessPrice = business.getDetails().getAccessPrice();
-        accessPriceTextField = new TextField(Float.toString(oldAccessPrice));
+        double oldAccessPrice = business.getDetails().getAccessPrice();
+        accessPriceTextField = new TextField(Double.toString(oldAccessPrice));
         Button saveAccessPriceBtn = createButton("Save", e -> saveAccessPrice());
         Button backButton = createButton("Back", e -> goBack());
 

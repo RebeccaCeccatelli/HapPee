@@ -46,4 +46,20 @@ public class BusinessDetailsDAO extends DAO {
         }
         return desiredField;
     }
+
+    //implemented for testing purposes
+    public void deleteBusinessDetails(int businessId) {
+
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(
+                     "DELETE FROM \"BusinessDetails\" WHERE business_id = ?")) {
+
+            statement.setInt(1, businessId);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

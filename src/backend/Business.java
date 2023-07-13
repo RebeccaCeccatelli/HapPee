@@ -17,7 +17,7 @@ public class Business extends Account {
         details.saveBusinessType(businessType);
     }
 
-    public void saveAccessPrice(float accessPrice) {
+    public void saveAccessPrice(double accessPrice) {
         details.saveAccessPrice(accessPrice);
     }
 
@@ -66,5 +66,4 @@ public class Business extends Account {
         }
         return false;
     }
-
 }

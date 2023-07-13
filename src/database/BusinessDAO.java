@@ -1,10 +1,8 @@
 package database;
 
 import java.sql.*;
-import java.util.Random;
 
 import backend.Business;
-import org.junit.Test;
 
 public class BusinessDAO extends DAO {
 
@@ -101,6 +99,22 @@ public class BusinessDAO extends DAO {
             e.printStackTrace();
         }
         return business;
+    }
+
+    //implemented for testing purposes
+    public void deleteTestBusiness(String email) {
+
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(
+                     "DELETE FROM \"Business\" WHERE email = ?")) {
+
+            statement.setString(1, email);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

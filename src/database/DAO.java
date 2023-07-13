@@ -27,7 +27,7 @@ public abstract class DAO {
 
     public boolean emailAlreadyExists(String email) {
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sqlCommand = "SELECT COUNT(*) FROM public.\"User\" WHERE email = ?";
+            String sqlCommand = "SELECT COUNT(*) FROM public.\"" + getTableName() + "\" WHERE email = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sqlCommand)) {
                 stmt.setString(1, email);
                 try (ResultSet rs = stmt.executeQuery()) {
@@ -43,7 +43,7 @@ public abstract class DAO {
         return false;
     }
 
-    public int getAccountIdByEmail(String email) {
+    public int getIdByEmail(String email) {
         int id = 0;
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sql = "SELECT id FROM \"" + getTableName() + "\" WHERE email = ?";
@@ -82,8 +82,8 @@ public abstract class DAO {
         return desiredField;
     }
 
-    public float getFLoatFromDB(int id, String column) {
-        float desiredField = 0;
+    public double getDoubleFromDB(int id, String column) {
+        double desiredField = 0;
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sql = "SELECT " + column + " FROM \"" + getTableName() + "\" WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -91,7 +91,7 @@ public abstract class DAO {
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                desiredField = resultSet.getFloat(column);
+                desiredField = resultSet.getDouble(column);
             }
             resultSet.close();
             statement.close();
@@ -139,7 +139,8 @@ public abstract class DAO {
         return desiredField;
     }
 
-    public int getMaxId() {
+    //implemented for testing purposes
+    public int getLatestId() {
         int maxId = 0;
 
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
@@ -155,6 +156,29 @@ public abstract class DAO {
         }
 
         return maxId;
+    }
+
+    //implemented for testing purposes
+
+    public int getTableSize() {
+        int tableSize = 0;
+
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement statement = connection.createStatement()) {
+
+            String query = "SELECT COUNT(*) FROM \"" + getTableName() + "\"";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            if (resultSet.next()) {
+                tableSize = resultSet.getInt(1);
+            }
+
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tableSize;
     }
 
 }

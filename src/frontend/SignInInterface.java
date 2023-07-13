@@ -37,11 +37,11 @@ public class SignInInterface extends Interface {
         UserDAO userDAO = new UserDAO();
         BusinessDAO businessDAO = new BusinessDAO();
         if (userDAO.checkIfUserRegistered(email, password)) {
-            UserDashboard userDashboard = new UserDashboard(userDAO.getAccountIdByEmail(email));
+            UserDashboard userDashboard = new UserDashboard(userDAO.getIdByEmail(email));
             showDashboard(userDashboard);
         }
         else if (businessDAO.checkIfBusinessRegistered(email, password)) {
-            BusinessDashboard businessDashboard = new BusinessDashboard(businessDAO.getAccountIdByEmail(email));
+            BusinessDashboard businessDashboard = new BusinessDashboard(businessDAO.getIdByEmail(email));
             showDashboard(businessDashboard);
         }
         else {

@@ -43,4 +43,19 @@ public class UserPaymentDetailsDAO extends DAO {
         }
         return desiredField;
     }
+
+    //implemented for testing purposes
+    public void deleteTestUserPaymentDetails(int userId) {
+
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(
+                     "DELETE FROM \"UserPaymentDetails\" WHERE user_id = ?")) {
+
+            statement.setInt(1, userId);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

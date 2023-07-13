@@ -124,4 +124,21 @@ public class AddressDAO extends DAO {
 
         return address;
     }
+
+    //implemented for testing purposes
+    public void deleteTestAddresses(String street, String civicNumber) {
+
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(
+                     "DELETE FROM \"Address\" WHERE street = ? AND civic_number = ?")) {
+
+            statement.setString(1, street);
+            statement.setString(2, civicNumber);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
