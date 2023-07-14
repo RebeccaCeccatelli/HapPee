@@ -34,7 +34,8 @@ public class CheckReviewsDashboard extends Interface {
             int i = 2;
             for (Review review : reviews) {
                 String userName = new UserDAO().getStringFromDB(review.getUserId(), "name");
-                Label reviewLabel = new Label("Review from '"+ userName + "': ");
+                String userSurname = new UserDAO().getStringFromDB(review.getUserId(), "surname");
+                Label reviewLabel = new Label("Review from '"+ userName + " " + userSurname + "': ");
                 Button openReviewButton = createButton("Open review", e -> showReview(review));
 
                 addToGridPane(reviewLabel, 0, i);

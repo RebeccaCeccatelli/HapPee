@@ -46,6 +46,10 @@ public class SetTimesDashboard extends Interface {
         String openingTimeString = openingTimeField.getText();
         String closingTimeString = closingTimeField.getText();
 
+        if (!isValidFormat(openingTimeString) || !isValidFormat(closingTimeString)) {
+            showAlert("Format error", "Invalid format. Please use HH:MM format.");
+        }
+
         Time openingTime = Time.valueOf(openingTimeString + ":00");
         Time closingTime = Time.valueOf(closingTimeString + ":00");
 
@@ -53,5 +57,9 @@ public class SetTimesDashboard extends Interface {
         business.saveTime(closingTime, "closing_time");
         showConfirmationDialog("Set Opening and Closing Times", "New Opening and Closing Times successfully saved!");
         goBack();
+    }
+
+    private boolean isValidFormat(String timeString) {
+        return timeString.matches("^\\d{2}:\\d{2}$");
     }
 }
