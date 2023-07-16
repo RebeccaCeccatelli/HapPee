@@ -7,7 +7,7 @@ public abstract class DAO {
     protected static final String DB_USER = "postgres";
     protected static final String DB_PASSWORD = "Pianoforte2000!";
 
-    public abstract boolean addRow(Object... params);
+    public abstract boolean add(Object... params);
 
     abstract String getTableName();
 
@@ -137,25 +137,6 @@ public abstract class DAO {
             e.printStackTrace();
         }
         return desiredField;
-    }
-
-    //implemented for testing purposes
-    public int getLatestId() {
-        int maxId = 0;
-
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sql = "SELECT MAX(id) AS max_id FROM \"" + getTableName() + "\"";
-            PreparedStatement statement = connection.prepareStatement(sql);
-
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                maxId = resultSet.getInt("max_id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return maxId;
     }
 
     //implemented for testing purposes

@@ -17,9 +17,9 @@ public class BusinessDetailsDAOSuite {
 
         int businessId = 0;
         try {
-            new BusinessDAO().addRow(randomString, address, randomString, randomString);
+            new BusinessDAO().add(randomString, address, randomString, randomString);
             businessId = new BusinessDAO().getIdByBusinessName(randomString);
-            businessDetailsDAO.addRow("business_id", businessId);
+            businessDetailsDAO.add("business_id", businessId);
 
             Assert.assertEquals(previousSize + 1, businessDetailsDAO.getTableSize());
         }

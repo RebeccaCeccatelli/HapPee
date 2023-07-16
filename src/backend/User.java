@@ -1,6 +1,5 @@
 package backend;
 
-import database.ReviewDAO;
 import database.UserPaymentDetailsDAO;
 
 public class User  extends Account{
@@ -10,12 +9,15 @@ public class User  extends Account{
     private UserPaymentDetailsDAO userPaymentDetailsDAO = new UserPaymentDetailsDAO();
 
     public User(int id) {
-        information = new UserInformation(id);
-        reviews = new ReviewDAO().getReviewsByAccountId(id, "user_id");
+        super(id);
 
         int userPaymentDetailsId = userPaymentDetailsDAO.getIdByUserId(id);
         subscription = userPaymentDetailsDAO.getStringFromDB(userPaymentDetailsId, "subscription");
         creditBalance = userPaymentDetailsDAO.getDoubleFromDB(userPaymentDetailsId, "credit");
+    }
+
+    protected String getIdType() {
+        return "user_id";
     }
 
     private void saveCreditBalance() {
@@ -35,10 +37,6 @@ public class User  extends Account{
         Review review = new Review(getId(), businessId, text, rating);
         addReview(review);
         review.save();
-    }
-
-    public void saveSpecificField(Object... params) {
-        information.saveSpecificField(params);
     }
 
     public boolean upgradeToPremiumSubscription() {
@@ -92,7 +90,7 @@ public class User  extends Account{
         return subscription;
     }
 
-    public Object getSpecificField() {
-        return information.getSpecificField();
+    protected AccountInformation createInformation(int id) {
+        return new UserInformation(id);
     }
 }

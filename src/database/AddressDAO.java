@@ -9,7 +9,7 @@ public class AddressDAO extends DAO {
     private int addressId;
 
     @Override
-    public boolean addRow(Object... params) {
+    public boolean add(Object... params) {
         Address address = (Address) params[0];
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sqlCommand = "INSERT INTO \"Address\" (street, civic_number, postcode, city, country) VALUES (?, ?, ?, ?, ?)";

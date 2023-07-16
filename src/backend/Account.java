@@ -1,10 +1,17 @@
 package backend;
 
+import database.ReviewDAO;
+
 import java.util.ArrayList;
 
 public abstract class Account {
     protected AccountInformation information;
     protected ArrayList<Review> reviews;
+
+    public Account(int id) {
+        this.information = createInformation(id);
+        this.reviews = new ReviewDAO().getReviewsByAccountId(id, getIdType());
+    }
 
     public void saveName(String newName) {
         information.saveName(newName);
@@ -18,7 +25,7 @@ public abstract class Account {
         information.savePassword(newPassword);
     }
 
-    public abstract void saveSpecificField(Object... params);
+    public void saveSpecificField(Object... params) {information.saveSpecificField(params); }
 
     public int getId() {
         return information.getId();
@@ -36,13 +43,17 @@ public abstract class Account {
         return information.getPassword();
     }
 
-    public abstract Object getSpecificField();
+    public Object getSpecificField() {return information.getSpecificField(); }
 
     public AccountInformation getInformation() { return information; }
 
     public ArrayList<Review> getReviews() {
         return reviews;
     }
+
+    protected abstract String getIdType();
+
+    protected abstract AccountInformation createInformation(int id);
 
 }
 

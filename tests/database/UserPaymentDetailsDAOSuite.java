@@ -12,10 +12,10 @@ public class UserPaymentDetailsDAOSuite {
         String randomString = Utils.generateRandomString();
 
         UserDAO userDAO = new UserDAO();
-        userDAO.addRow(randomString, randomString, randomString, randomString);
+        userDAO.add(randomString, randomString, randomString, randomString);
         int userId = userDAO.getIdByEmail(randomString);
 
-        userPaymentDetailsDAO.addRow(userId);
+        userPaymentDetailsDAO.add(userId);
 
         try {
             Assert.assertEquals(previousSize +1, userPaymentDetailsDAO.getTableSize());

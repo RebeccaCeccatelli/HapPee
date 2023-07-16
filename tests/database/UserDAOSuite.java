@@ -3,8 +3,6 @@ package database;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static database.Utils.generateRandomString;
-
 public class UserDAOSuite {
     UserDAO userDAO = new UserDAO();
 
@@ -13,7 +11,7 @@ public class UserDAOSuite {
         int previousSize = userDAO.getTableSize();
         String randomString = Utils.generateRandomString();
 
-        userDAO.addRow(randomString, randomString, randomString, randomString);
+        userDAO.add(randomString, randomString, randomString, randomString);
         try {
             Assert.assertEquals(previousSize + 1, userDAO.getTableSize());
         }
@@ -25,7 +23,7 @@ public class UserDAOSuite {
     @Test
     public void checkIfUserRegisteredTest() {
         String randomString = Utils.generateRandomString();
-        userDAO.addRow(randomString, randomString, randomString, randomString);
+        userDAO.add(randomString, randomString, randomString, randomString);
 
         try {
             Assert.assertTrue(userDAO.checkIfUserRegistered(randomString, randomString));

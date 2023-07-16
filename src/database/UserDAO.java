@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class UserDAO extends DAO {
 
-    public boolean addRow(Object... params) {
+    public boolean add(Object... params) {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sqlCommand = "INSERT INTO \"User\" (name, surname, email, password) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sqlCommand);

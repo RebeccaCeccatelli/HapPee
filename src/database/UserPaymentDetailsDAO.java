@@ -5,7 +5,7 @@ import java.sql.*;
 public class UserPaymentDetailsDAO extends DAO {
 
     @Override
-    public boolean addRow(Object... params) {
+    public boolean add(Object... params) {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             String sqlCommand = "INSERT INTO \"UserPaymentDetails\" (user_id) VALUES (?)";
             PreparedStatement statement = connection.prepareStatement(sqlCommand);

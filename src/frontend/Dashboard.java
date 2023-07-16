@@ -1,9 +1,6 @@
 package frontend;
 
-import javafx.stage.Stage;
+public interface Dashboard {
 
-public class Dashboard extends Interface {
-
-    @Override
-    public void start(Stage primaryStage){}
+    void modifyAccountDetails();
 }

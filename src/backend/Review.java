@@ -32,7 +32,7 @@ public class Review {
     }
 
     void save() {
-        new ReviewDAO().addRow(userId, businessId, text, rating, date, time);
+        new ReviewDAO().add(userId, businessId, text, rating, date, time);
     }
 
     public int getBusinessId() {

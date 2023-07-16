@@ -76,10 +76,10 @@ public class BusinessSignUpInterface extends SignUpInterface {
 
     void addRowToDetails(DAO DAO, String email){
         int businessId = DAO.getIdByEmail(email);
-        new BusinessDetailsDAO().addRow("business_id", businessId);
+        new BusinessDetailsDAO().add("business_id", businessId);
     }
 
-    Dashboard getDashboard(int id) {
+    Interface getDashboard(int id) {
         return new BusinessDashboard(id);
     }
 

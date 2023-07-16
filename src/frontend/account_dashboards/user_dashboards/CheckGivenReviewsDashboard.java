@@ -4,13 +4,14 @@ import backend.Review;
 import backend.User;
 import database.BusinessDAO;
 import frontend.Interface;
+import frontend.account_dashboards.CheckReviewsDashboard;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 
-public class CheckGivenReviewsDashboard extends Interface {
+public class CheckGivenReviewsDashboard extends Interface implements CheckReviewsDashboard {
     private User user;
 
     public CheckGivenReviewsDashboard(User user) {
@@ -49,7 +50,7 @@ public class CheckGivenReviewsDashboard extends Interface {
         showCurrentInterface("Check given reviews");
     }
 
-    private void showReview(Review review) {
+    public void showReview(Review review) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Show review");
         String businessName = new BusinessDAO().getStringFromDB(review.getBusinessId(), "name");

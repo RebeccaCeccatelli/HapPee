@@ -14,7 +14,7 @@ public class AddressDAOSuite {
         String test = "test";
         Address address = new Address(test, test, test, test, test);
 
-        addressDao.addRow(address);
+        addressDao.add(address);
         try {
             Assert.assertEquals(previousSize + 1, addressDao.getTableSize());
         }

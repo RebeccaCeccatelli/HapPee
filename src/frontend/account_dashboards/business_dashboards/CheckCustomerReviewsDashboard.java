@@ -4,16 +4,17 @@ import backend.Business;
 import backend.Review;
 import database.UserDAO;
 import frontend.Interface;
+import frontend.account_dashboards.CheckReviewsDashboard;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 
-public class CheckReviewsDashboard extends Interface {
+public class CheckCustomerReviewsDashboard extends Interface implements CheckReviewsDashboard {
     private Business business;
 
-    public CheckReviewsDashboard(Business business) {
+    public CheckCustomerReviewsDashboard(Business business) {
         this.business = business;
     }
 
@@ -53,7 +54,7 @@ public class CheckReviewsDashboard extends Interface {
         showCurrentInterface("Check reviews");
     }
 
-    private void showReview(Review review) {
+    public void showReview(Review review) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Show review");
         String userName = new UserDAO().getStringFromDB(review.getUserId(), "name");

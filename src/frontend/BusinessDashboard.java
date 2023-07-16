@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class BusinessDashboard extends Dashboard {
+public class BusinessDashboard extends Interface implements Dashboard {
     private Business business;
 
     public BusinessDashboard(int id) {
@@ -60,11 +60,11 @@ public class BusinessDashboard extends Dashboard {
     }
 
     private void checkCustomerReviews() {
-        CheckReviewsDashboard checkReviewsDashboard = new CheckReviewsDashboard(business);
-        showNextInterface(checkReviewsDashboard);
+        CheckCustomerReviewsDashboard checkCustomerReviewsDashboard = new CheckCustomerReviewsDashboard(business);
+        showNextInterface(checkCustomerReviewsDashboard);
     }
 
-    private void modifyAccountDetails() {
+    public void modifyAccountDetails() {
         BusinessAccountDetailsDashboard businessAccountDetailsDashboard = new BusinessAccountDetailsDashboard(business);
         showNextInterface(businessAccountDetailsDashboard);
     }

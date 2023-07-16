@@ -1,16 +1,17 @@
 package backend;
 
-import database.ReviewDAO;
-
 import java.sql.Time;
 
 public class Business extends Account {
     private BusinessDetails details;
 
     public Business(int id) {
-        this.information = new BusinessInformation(id);
+        super(id);
         this.details = new BusinessDetails(id);
-        this.reviews = new ReviewDAO().getReviewsByAccountId(id, "business_id");
+    }
+
+    protected String getIdType() {
+        return "business_id";
     }
 
     public void saveBusinessType(String businessType) {
@@ -27,20 +28,12 @@ public class Business extends Account {
         details.saveTime(time, type);
     }
 
-    public void saveSpecificField(Object... params) {
-        information.saveSpecificField(params);
-    }
-
     public BusinessDetails getDetails() {
         return details;
     }
 
     public int getAccessCode() {
         return details.getAccessCode();
-    }
-
-    public Object getSpecificField() {
-        return information.getSpecificField();
     }
 
     public double getAverageRating() {
@@ -65,5 +58,9 @@ public class Business extends Account {
             return false;
         }
         return false;
+    }
+
+    protected AccountInformation createInformation(int id) {
+        return new BusinessInformation(id);
     }
 }

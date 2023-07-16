@@ -6,9 +6,9 @@ import backend.Business;
 
 public class BusinessDAO extends DAO {
 
-    public boolean addRow(Object... params) {
+    public boolean add(Object... params) {
         AddressDAO addressDAO = new AddressDAO();
-        addressDAO.addRow(params[1]);
+        addressDAO.add(params[1]);
         int addressId = addressDAO.getAddressId();
 
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {

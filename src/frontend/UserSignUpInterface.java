@@ -44,14 +44,14 @@ public class UserSignUpInterface extends SignUpInterface {
         addToGridPane(registerButton, 1, 5);
         addToGridPane(backButton, 0, 5);
 
-        showCurrentInterface("Sign up");
+        showCurrentInterface("User Registration");
     }
 
     DAO getDAO() {
         return new UserDAO();
     }
 
-    Dashboard getDashboard(int id) {
+    Interface getDashboard(int id) {
         return new UserDashboard(id);
     }
 
@@ -61,7 +61,7 @@ public class UserSignUpInterface extends SignUpInterface {
 
     void addRowToDetails(DAO DAO, String email) {
         int userId = DAO.getIdByEmail(email);
-        new UserPaymentDetailsDAO().addRow(userId);
+        new UserPaymentDetailsDAO().add(userId);
     }
 
     protected void clearPersonalFields() {

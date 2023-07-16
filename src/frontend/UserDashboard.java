@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.util.Objects;
 import java.util.Optional;
 
-public class UserDashboard extends Dashboard {
+public class UserDashboard extends Interface implements Dashboard {
     private User user;
 
     public UserDashboard(int id) {
@@ -139,27 +139,31 @@ public class UserDashboard extends Dashboard {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Check Subscription");
         alert.setHeaderText("You are currently on a " + user.getSubscription() + " subscription.");
-        alert.setContentText("Do you wish to upgrade to premium, for only 100$?" +
-                " If so, click on the 'Upgrade' button.");
-        ButtonType upgradeButton = new ButtonType("Upgrade");
-
-        alert.getButtonTypes().setAll(upgradeButton);
-
         alert.getDialogPane().setGraphic(null);
-        alert.showAndWait().ifPresent(response -> {
-            if (response == upgradeButton) {
-                if (user.upgradeToPremiumSubscription()) {
-                    showConfirmationDialog("Upgrade to Premium",
-                            "Upgrade to Premium Successfully Completed!" +
-                                    "\nRemaining credit: " + user.getCreditBalance() + ".");
-                }
-                else {
-                    showAlert("Insufficient credit",
-                            "Your remaining credit is " + user.getCreditBalance() + ". Top up to upgrade.");
-                }
-            }
-        });
+        if (Objects.equals(user.getSubscription(), "standard")) {
+            alert.setContentText("Do you wish to upgrade to premium, for only 100$?" +
+                    " If so, click on the 'Upgrade' button.");
+            ButtonType upgradeButton = new ButtonType("Upgrade");
 
+            alert.getButtonTypes().setAll(upgradeButton);
+
+            alert.showAndWait().ifPresent(response -> {
+                if (response == upgradeButton) {
+                    if (user.upgradeToPremiumSubscription()) {
+                        showConfirmationDialog("Upgrade to Premium",
+                                "Upgrade to Premium Successfully Completed!" +
+                                        "\nRemaining credit: " + user.getCreditBalance() + ".");
+                    }
+                    else {
+                        showAlert("Insufficient credit",
+                                "Your remaining credit is " + user.getCreditBalance() + ". Top up to upgrade.");
+                    }
+                }
+            });
+        }
+        else {
+            alert.showAndWait();
+        }
     }
 
     private void addReview() {
@@ -172,7 +176,7 @@ public class UserDashboard extends Dashboard {
         showNextInterface(checkGivenReviewsDashboard);
     }
 
-    private void modifyAccountDetails() {
+    public void modifyAccountDetails() {
         UserAccountDetailsDashboard userAccountDetailsDashboard = new UserAccountDetailsDashboard(user);
         showNextInterface(userAccountDetailsDashboard);
     }

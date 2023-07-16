@@ -14,7 +14,7 @@ public class BusinessDAOSuite {
         String randomString = Utils.generateRandomString();
         Address testAddress = new Address(randomString, randomString, randomString, randomString, randomString);
 
-        businessDAO.addRow(randomString, testAddress, randomString, randomString);
+        businessDAO.add(randomString, testAddress, randomString, randomString);
         try {
             Assert.assertEquals(previousSize + 1, businessDAO.getTableSize());
         }
@@ -28,7 +28,7 @@ public class BusinessDAOSuite {
         String randomString = Utils.generateRandomString();
         Address testAddress = new Address(randomString, randomString, randomString, randomString, randomString);
 
-        businessDAO.addRow(randomString, testAddress, randomString, randomString);
+        businessDAO.add(randomString, testAddress, randomString, randomString);
         try {
             Assert.assertTrue(businessDAO.checkIfBusinessRegistered(randomString, randomString));
             Assert.assertFalse(businessDAO.checkIfBusinessRegistered("notRegisteredTest", "notRegisteredTest"));
@@ -80,7 +80,7 @@ public class BusinessDAOSuite {
         Assert.assertFalse(businessDAO.emailAlreadyExists(randomString));
 
         Address address = new Address(randomString, randomString, randomString, randomString ,randomString);
-        businessDAO.addRow(randomString, address, randomString, randomString);
+        businessDAO.add(randomString, address, randomString, randomString);
 
         try {
             Assert.assertTrue(businessDAO.emailAlreadyExists(randomString));
