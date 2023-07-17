@@ -7,7 +7,7 @@ public class UserDAOSuite {
     UserDAO userDAO = new UserDAO();
 
     @Test
-    public void addRowTest() {
+    public void addTest() {
         int previousSize = userDAO.getTableSize();
         String randomString = Utils.generateRandomString();
 

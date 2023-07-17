@@ -9,7 +9,7 @@ public class AddressDAOSuite {
     AddressDAO addressDao = new AddressDAO();
 
     @Test
-    public void addRowTest() {
+    public void addTest() {
         int previousSize = addressDao.getTableSize();
         String test = "test";
         Address address = new Address(test, test, test, test, test);

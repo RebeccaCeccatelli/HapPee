@@ -9,7 +9,7 @@ public class BusinessDAOSuite {
     BusinessDAO businessDAO = new BusinessDAO();
 
     @Test
-    public void addRowTest() {
+    public void addTest() {
         int previousSize = businessDAO.getTableSize();
         String randomString = Utils.generateRandomString();
         Address testAddress = new Address(randomString, randomString, randomString, randomString, randomString);
@@ -31,7 +31,8 @@ public class BusinessDAOSuite {
         businessDAO.add(randomString, testAddress, randomString, randomString);
         try {
             Assert.assertTrue(businessDAO.checkIfBusinessRegistered(randomString, randomString));
-            Assert.assertFalse(businessDAO.checkIfBusinessRegistered("notRegisteredTest", "notRegisteredTest"));
+            Assert.assertFalse(businessDAO.checkIfBusinessRegistered(
+                    "notRegisteredTest", "notRegisteredTest"));
         }
         finally {
             cleanUp(randomString);

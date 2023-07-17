@@ -14,7 +14,7 @@ public class ReviewDAOSuite {
     private ReviewDAO reviewDAO = new ReviewDAO();
 
     @Test
-    public void addRowTest() {
+    public void addTest() {
         int previousSize = reviewDAO.getTableSize();
 
         reviewDAO.add(32, 41, "test", 4.0, Date.valueOf(LocalDate.now()), Time.valueOf(LocalTime.now()));

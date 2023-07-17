@@ -7,7 +7,7 @@ public class UserPaymentDetailsDAOSuite {
     UserPaymentDetailsDAO userPaymentDetailsDAO = new UserPaymentDetailsDAO();
 
     @Test
-    public void addRowTest() {
+    public void addTest() {
         int previousSize = userPaymentDetailsDAO.getTableSize();
         String randomString = Utils.generateRandomString();
 
@@ -30,7 +30,7 @@ public class UserPaymentDetailsDAOSuite {
         Assert.assertEquals(13, userPaymentDetailsDAO.getIdByUserId(32));
     }
 
-    public void cleanUp(int userId) {
+    private void cleanUp(int userId) {
         userPaymentDetailsDAO.deleteTestUserPaymentDetails(userId);
         new UserDAO().deleteTestUser(userId);
     }

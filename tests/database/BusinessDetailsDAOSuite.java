@@ -10,7 +10,7 @@ public class BusinessDetailsDAOSuite {
     private BusinessDetailsDAO businessDetailsDAO = new BusinessDetailsDAO();
 
     @Test
-    public void addRowTest() {
+    public void addTest() {
         int previousSize = businessDetailsDAO.getTableSize();
         String randomString = Utils.generateRandomString();
         Address address = new Address(randomString, randomString, randomString, randomString, randomString);
