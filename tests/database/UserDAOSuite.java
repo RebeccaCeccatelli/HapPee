@@ -47,5 +47,4 @@ public class UserDAOSuite {
     private void cleanUp(int userId) {
         userDAO.deleteTestUser(userId);
     }
-
 }

@@ -16,10 +16,6 @@ public class User  extends Account{
         creditBalance = userPaymentDetailsDAO.getDoubleFromDB(userPaymentDetailsId, "credit");
     }
 
-    protected String getIdType() {
-        return "user_id";
-    }
-
     private void saveCreditBalance() {
         userPaymentDetailsDAO.update(
                 userPaymentDetailsDAO.getIdByUserId(getId()), "credit", creditBalance
@@ -90,7 +86,11 @@ public class User  extends Account{
         return subscription;
     }
 
-    protected AccountInformation createInformation(int id) {
+    protected String getIdType() {
+        return "user_id";
+    }
+
+    protected AccountInformation retrieveAccountInformation(int id) {
         return new UserInformation(id);
     }
 }

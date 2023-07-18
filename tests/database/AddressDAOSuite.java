@@ -52,5 +52,4 @@ public class AddressDAOSuite {
         Assert.assertEquals(oldStreet, ((Address) business.getSpecificField()).getStreet());
         Assert.assertEquals(oldCivicNumber, ((Address) business.getSpecificField()).getCivicNumber());
     }
-
 }

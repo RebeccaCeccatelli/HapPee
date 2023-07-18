@@ -9,7 +9,7 @@ public abstract class Account {
     protected ArrayList<Review> reviews;
 
     public Account(int id) {
-        this.information = createInformation(id);
+        this.information = retrieveAccountInformation(id);
         this.reviews = new ReviewDAO().getReviewsByAccountId(id, getIdType());
     }
 
@@ -53,7 +53,6 @@ public abstract class Account {
 
     protected abstract String getIdType();
 
-    protected abstract AccountInformation createInformation(int id);
-
+    protected abstract AccountInformation retrieveAccountInformation(int id);
 }
 

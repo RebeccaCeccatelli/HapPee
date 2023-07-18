@@ -32,7 +32,7 @@ public class BusinessSuite {
     }
 
     @Test
-    public void saveAccessCode() {
+    public void saveAccessCodeTest() {
         int newAccessCode = 11111111;
         business.saveAccessCode(newAccessCode);
         Assert.assertEquals(business.getAccessCode(), newAccessCode);

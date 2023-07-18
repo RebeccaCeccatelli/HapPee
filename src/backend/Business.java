@@ -10,10 +10,6 @@ public class Business extends Account {
         this.details = new BusinessDetails(id);
     }
 
-    protected String getIdType() {
-        return "business_id";
-    }
-
     public void saveBusinessType(String businessType) {
         details.saveBusinessType(businessType);
     }
@@ -32,6 +28,10 @@ public class Business extends Account {
         return details;
     }
 
+    protected String getIdType() {
+        return "business_id";
+    }
+
     public int getAccessCode() {
         return details.getAccessCode();
     }
@@ -47,6 +47,10 @@ public class Business extends Account {
         return average;
     }
 
+    protected AccountInformation retrieveAccountInformation(int id) {
+        return new BusinessInformation(id);
+    }
+
     public static boolean equals(Business first, Business second) {
         if (BusinessInformation.equals(first.getInformation(), second.getInformation())) {
             if (BusinessDetails.equals(first.getDetails(), second.getDetails())) {
@@ -58,9 +62,5 @@ public class Business extends Account {
             return false;
         }
         return false;
-    }
-
-    protected AccountInformation createInformation(int id) {
-        return new BusinessInformation(id);
     }
 }
